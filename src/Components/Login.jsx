@@ -53,9 +53,8 @@ const Login = () => {
                             <form onSubmit={handleSignIn}>
                                 <MDBInput wrapperClass='mb-4' label='Email address' id='formEmail' required type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)}/>
                                 {error.email && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.email}</p>}
-                                <MDBInput wrapperClass='mb-4' label='Password' id='formPassword' required type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                <MDBInput wrapperClass='mb-4' label='Password' autoComplete="on" id='formPassword' required type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 {error.password && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.password}</p>}
-
                                 <div className="d-flex justify-content-between mx-4 mb-4">
                                     <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
                                     <p>No account?<Link to="/Registration">  Create one</Link></p>

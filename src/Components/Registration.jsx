@@ -112,7 +112,7 @@ const Registration = () => {
                                 {error.name && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.name}</p>}
                                 <MDBInput wrapperClass='mb-4' label='Email address' id='formEmail' required type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)}/>
                                 {error.email && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.email}</p>}
-                                <MDBInput wrapperClass='mb-4' label='Password' id='formPassword' required type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                                <MDBInput wrapperClass='mb-4' label='Password' autoComplete="on" id='formPassword' required type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 {error.password && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.password}</p>}
 
                                 <input style={{display:"none"}} type="file" id="file" onChange={(e) => setAvatar(e.target.files[0])}/>

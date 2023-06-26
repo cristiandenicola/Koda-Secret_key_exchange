@@ -18,7 +18,6 @@ import { db } from "../firebase";
 import sodium from "libsodium-wrappers";
 import { AuthContext } from "../Context/AuthContext";
 
-
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
@@ -30,7 +29,12 @@ export const ChatContextProvider = ({ children }) => {
         sessionKey: "null",
     };
 
-    //log verdi
+    /**
+     * Metodo usato per recuperare la public key del destinatario in fase di creazione della session key
+     * tale metodo fa una query q usando come indicatore l'uid dell'utente in questione.
+     * @param {*} user utente da cui andremo a prendere il proprio uid e quindi la sua public key
+     * @returns pubKdest, ovvero la public key.
+     */
     const retrievePublicKey = async (user) => {
         const q = query(
             collection(db, "users"),
@@ -53,6 +57,12 @@ export const ChatContextProvider = ({ children }) => {
     };
 
 
+    /**
+     * metodo usato per calcolare la chiave di sessione tra due utenti usando diffie-hellman
+     * in particolare richiama il metodo @retrievePublicKey per recuperare PK del destinatario e prende la SK del mittente globalmente.
+     * infine combina questi due param per calcolare la chiave di sessione
+     * @param {*} user 
+     */
     const calculateSessionKey = async (user) => {
         try {
             //ottenimento publicK dest e privateK mitt

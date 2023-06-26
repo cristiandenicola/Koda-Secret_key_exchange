@@ -11,6 +11,12 @@ export const AuthContextProvider = ({ children }) => {
     const [publicKey, setPublicKey] = useState("");
     const [privateKey, setPrivateKey] = useState("");
 
+    /**
+     * metodo usato per salvare la public key generata nel database
+     * per permettere poi in fase di selezione chat di generare la chiave simmetrica.
+     * @param {*} PUBLIC_KEY public key da salvare
+     * @param {*} user utente legato a tale chiave
+     */
     const saveUserPK = (PUBLIC_KEY, user) => {
         try {
             updateDoc(doc(db, "users", user.uid), { 
@@ -21,6 +27,11 @@ export const AuthContextProvider = ({ children }) => {
         };
     };
     
+    /**
+     * metodo usato x la generazione della keyPair
+     * in particolare viene usato l'algoritmo X25519 che usa la curva Curve25519 (ellittico).
+     * @returns coppia di key public e private
+     */
     const generateUserKeys = () => {
         const USER_KEYS = sodium.crypto_kx_keypair();
         //usando crypto_kx ottengo una coppia di key basate sull'algoritmo X25519 che usa la curva Curve25519

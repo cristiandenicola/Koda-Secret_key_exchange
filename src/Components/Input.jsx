@@ -11,6 +11,7 @@ import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
 
 
+
 const Input = () => {
 
     const [text, setText] = useState(""); //questo equivale a message del codice chatGPT
