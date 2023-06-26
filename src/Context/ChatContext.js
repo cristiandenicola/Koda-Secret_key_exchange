@@ -83,7 +83,9 @@ export const ChatContextProvider = ({ children }) => {
 
             //infine vado a portare la chiave da bytes in hex
             const SESSION_KEY = sodium.to_hex(keySessionBYTES);
-        console.log("CHIAVE SIMMETRICA DI SESSIONE: "+ SESSION_KEY);
+            console.log("CHIAVE SIMMETRICA DI SESSIONE: "+ SESSION_KEY);
+
+            return SESSION_KEY;
         } catch (error) {
             console.error("l'utente selezionato non è disponibile al momento");
         }

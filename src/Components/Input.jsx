@@ -9,13 +9,13 @@ import { ChatContext } from "../Context/ChatContext";
 import { Timestamp, serverTimestamp, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
-
+import CryptoJS from "crypto-js";
 
 
 const Input = () => {
 
-    const [text, setText] = useState(""); //questo equivale a message del codice chatGPT
-    //aggiungere [encryptedMessage, setEncryptedMessage] = useState(""), qui setteremo il messaggio cifrato
+    const [text, setText] = useState("");
+    //const [encryptedMessage, setEncryptedMessage] = useState ("");
 
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
@@ -24,37 +24,46 @@ const Input = () => {
         e.code === "Enter" && handleSend();
     };
 
+    const encryptMessage = (message, key) => {
+        const encryptedMessage = CryptoJS.AES.encrypt(message, key).toString();
+        return encryptedMessage;
+    }
+
     const handleSend = async () => {
         if(text === ""){
             //controllo dell'input in caso il mex sia vuoto non viene inviato nulla
-            console.log("seleziona una chat per inviare un messaggio!")
+            console.log("messaggio non valido");
         } else {
             try {
-                await updateDoc(doc(db, "chats", data.chatId), { //metodo usato per salvare dentro il db il messaggio
-                    messages: arrayUnion({
-                        id: uuid(),
-                        text, //testo da cifrare
-                        senderId: currentUser.uid,
-                        date: Timestamp.now(),
-                    }),
-                });
-        
-                await updateDoc(doc(db, "userChats", currentUser.uid), { //metodo usato x salvare in userChats mittente l'ultimo mex
-                    [data.chatId + ".lastMessage"]: {
-                      text, //da cifrare
-                    },
-                    [data.chatId + ".date"]: serverTimestamp(),
-                });
-              
-                await updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
-                    [data.chatId + ".lastMessage"]: {
-                      text, //testo da cifrare
-                    },
-                    [data.chatId + ".date"]: serverTimestamp(),
-                });
+                if(data && data.chatId && data.sessionKey) {
+                    console.log(data.sessionKey);
+                    await updateDoc(doc(db, "chats", data.chatId), { //metodo usato per salvare dentro il db il messaggio
+                        messages: arrayUnion({
+                            id: uuid(),
+                            text,
+                            senderId: currentUser.uid,
+                            date: Timestamp.now(),
+                        }),
+                    });
+
+                    await updateDoc(doc(db, "userChats", currentUser.uid), { //metodo usato x salvare in userChats mittente l'ultimo mex
+                        [data.chatId + ".lastMessage"]: {
+                          text, //da cifrare
+                        },
+                        [data.chatId + ".date"]: serverTimestamp(),
+                    });
                   
-                setText("");
+                    await updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
+                        [data.chatId + ".lastMessage"]: {
+                          text, //testo da cifrare
+                        },
+                        [data.chatId + ".date"]: serverTimestamp(),
+                    });
+                      
+                    setText("");
+                }
             } catch (error) {
+                console.error(error);
                 console.log("seleziona una chat per iniziare!")
             }
         }
