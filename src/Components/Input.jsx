@@ -19,6 +19,7 @@ const Input = () => {
 
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
+    let SESSION_KEY;
 
     const handleKey = (e) => {
         e.code === "Enter" && handleSend();
@@ -36,31 +37,36 @@ const Input = () => {
         } else {
             try {
                 if(data && data.chatId && data.sessionKey) {
-                    console.log(data.sessionKey);
-                    await updateDoc(doc(db, "chats", data.chatId), { //metodo usato per salvare dentro il db il messaggio
-                        messages: arrayUnion({
-                            id: uuid(),
-                            text,
-                            senderId: currentUser.uid,
-                            date: Timestamp.now(),
-                        }),
-                    });
-
-                    await updateDoc(doc(db, "userChats", currentUser.uid), { //metodo usato x salvare in userChats mittente l'ultimo mex
-                        [data.chatId + ".lastMessage"]: {
-                          text, //da cifrare
-                        },
-                        [data.chatId + ".date"]: serverTimestamp(),
-                    });
-                  
-                    await updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
-                        [data.chatId + ".lastMessage"]: {
-                          text, //testo da cifrare
-                        },
-                        [data.chatId + ".date"]: serverTimestamp(),
-                    });
-                      
-                    setText("");
+                    data.sessionKey.then(
+                        value => {
+                            SESSION_KEY = value
+                            
+                            updateDoc(doc(db, "chats", data.chatId), { //metodo usato per salvare dentro il db il messaggio
+                                messages: arrayUnion({
+                                    id: uuid(),
+                                    text: encryptMessage(text, SESSION_KEY),
+                                    senderId: currentUser.uid,
+                                    date: Timestamp.now(),
+                                }),
+                            });
+        
+                            updateDoc(doc(db, "userChats", currentUser.uid), { //metodo usato x salvare in userChats mittente l'ultimo mex
+                                [data.chatId + ".lastMessage"]: {
+                                    text: encryptMessage(text, SESSION_KEY),
+                                },
+                                [data.chatId + ".date"]: serverTimestamp(),
+                            });
+                          
+                            updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
+                                [data.chatId + ".lastMessage"]: {
+                                    text: encryptMessage(text, SESSION_KEY),
+                                },
+                                [data.chatId + ".date"]: serverTimestamp(),
+                            });
+                              
+                            setText("");
+                        }
+                    )
                 }
             } catch (error) {
                 console.error(error);

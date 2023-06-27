@@ -36,8 +36,8 @@ export const AuthContextProvider = ({ children }) => {
         const USER_KEYS = sodium.crypto_kx_keypair();
         //usando crypto_kx ottengo una coppia di key basate sull'algoritmo X25519 che usa la curva Curve25519
 
-        console.log("chiave pub: " + USER_KEYS.publicKey);
-        console.log("chiave seg: " + USER_KEYS.privateKey);
+        //console.log("chiave pub: " + USER_KEYS.publicKey);
+        //console.log("chiave seg: " + USER_KEYS.privateKey);
 
         const PUBLIC_KEY = sodium.to_hex(USER_KEYS.publicKey);
         const SECRET_KEY = sodium.to_hex(USER_KEYS.privateKey)
