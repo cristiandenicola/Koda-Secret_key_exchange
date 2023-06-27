@@ -16,6 +16,7 @@ const NavbarAccount = () => {
             await updateDoc(doc(db, "users", currentUser.uid), { 
                 publicKey: "",
             });
+            localStorage.clear();
         } catch (error) {
             console.error(error);
         }

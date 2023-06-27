@@ -11,9 +11,8 @@ const Chats = () => {
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch, data } = useContext(ChatContext);
-  let SESSION_KEY;
 
-  
+
   useEffect(() => {
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {

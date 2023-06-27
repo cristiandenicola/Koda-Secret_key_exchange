@@ -16,18 +16,55 @@ import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import image from '../Assets/Data_security_26.jpg';
 import ValidationLogin from "../ValidationLogin";
-import nacl from 'tweetnacl';
 import { doc, updateDoc } from "firebase/firestore";
 import NavbarAccount from "./NavbarAccount";
 import { AuthContext } from "../Context/AuthContext";
+import sodium from "libsodium-wrappers";
+
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [secretKey, setSecretKey] = useState(null);
     const navigate = useNavigate();
+    let PUBLIC_KEY;
+    let SECRET_KEY;
+
+
+    /**
+     * metodo usato x la generazione della keyPair
+     * in particolare viene usato l'algoritmo X25519 che usa la curva Curve25519 (ellittico).
+     * @returns coppia di key public e private
+     */
+    const generateUserKeys = () => {
+        const USER_KEYS = sodium.crypto_kx_keypair();
+        //usando crypto_kx ottengo una coppia di key basate sull'algoritmo X25519 che usa la curva Curve25519
+
+        //console.log("chiave pub: " + USER_KEYS.publicKey);
+        //console.log("chiave seg: " + USER_KEYS.privateKey);
+
+        const PUBLIC_KEY = sodium.to_hex(USER_KEYS.publicKey);
+        const SECRET_KEY = sodium.to_hex(USER_KEYS.privateKey)
+
+        return { PUBLIC_KEY, SECRET_KEY};
+    };
+
+    /**
+     * metodo usato per salvare la public key generata nel database
+     * per permettere poi in fase di selezione chat di generare la chiave simmetrica.
+     * @param {*} PUBLIC_KEY public key da salvare
+     * @param {*} user utente legato a tale chiave
+     */
+    const saveUserPK = (PUBLIC_KEY, user) => {
+        try {
+            updateDoc(doc(db, "users", user.uid), { 
+                publicKey: PUBLIC_KEY,
+            });
+        } catch (error) {
+            console.error(error);
+        };
+    };
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -35,6 +72,16 @@ const Login = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/account');
+            
+            const keys = generateUserKeys();
+            PUBLIC_KEY = keys.PUBLIC_KEY;
+            SECRET_KEY = keys.SECRET_KEY;
+
+            //salvo la chiave segreta all'interno del local storage in modo da poterla usare per tutta la sessione
+            localStorage.setItem('secretKey', SECRET_KEY); 
+
+            //salvo la public key nel database (volendo posso salvarla anche lei nel local storage invece che nel db)
+            saveUserPK(PUBLIC_KEY, auth.currentUser)
 
         } catch (error) {
             setError(true);

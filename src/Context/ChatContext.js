@@ -22,7 +22,7 @@ export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
 
-    const { currentUser, privateKey } = useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext);
     const INITIAL_STATE = {
         chatId: "null",
         user: {},
@@ -68,8 +68,7 @@ export const ChatContextProvider = ({ children }) => {
             //ottenimento publicK dest e privateK mitt
             //x ottenere publicK richiamo la funzione @retrievePublicKey che legge dal db
             const DEST_PUBLIC_KEY = await retrievePublicKey(user);
-            const MITT_PRIVATE_KEY = privateKey;
-            //console.log("%cprivate key mitt: " + MITT_PRIVATE_KEY, 'color: blue');
+            const MITT_PRIVATE_KEY = localStorage.getItem('secretKey');
 
             //x permettere il calcolo della chiave di sessione riporto le chiavi al loro stato originale 
             //tramite funzione di libreria from_hex
