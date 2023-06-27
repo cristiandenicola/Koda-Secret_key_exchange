@@ -26,7 +26,8 @@ const Input = () => {
     };
 
     const encryptMessage = (message, key) => {
-        const encryptedMessage = CryptoJS.AES.encrypt(message, key).toString();
+        const utf8Text = CryptoJS.enc.Utf8.parse(message)
+        const encryptedMessage = CryptoJS.AES.encrypt(utf8Text, key).toString();
         return encryptedMessage;
     }
 

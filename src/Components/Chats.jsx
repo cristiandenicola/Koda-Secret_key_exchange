@@ -3,24 +3,27 @@ import { AuthContext } from "../Context/AuthContext";
 import { ChatContext } from "../Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import CryptoJS from "crypto-js";
 
 const Chats = () => {
 
   const [chats, setChats] = useState([]);
 
   const { currentUser } = useContext(AuthContext);
-  const { dispatch } = useContext(ChatContext);
+  const { dispatch, data } = useContext(ChatContext);
+  let SESSION_KEY;
 
+  
   useEffect(() => {
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
         setChats(doc.data());
       });
-  
-      return () => {
-        unsub();
-      };
+
+    return () => {
+      unsub();
     };
+  };
     
     currentUser.uid && getChats();
   }, [currentUser.uid]);
