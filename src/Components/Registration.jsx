@@ -7,8 +7,6 @@ import {
     MDBRow,
     MDBBtn,
     MDBInput,
-    MDBValidation,
-    MDBValidationItem,
     MDBCard,
     MDBCardBody,
     MDBIcon
@@ -19,7 +17,7 @@ import { doc, setDoc } from "firebase/firestore";
 
 import image from '../Assets/Data_security_26.jpg';
 import Add from "../Assets/addAvatar.png";
-import Validation from "../Validation";
+//import Validation from "../Validation";
 import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
 
 
@@ -45,9 +43,9 @@ const Registration = () => {
      * @param {*} max settato a 99999
      * @returns numero casuale tra min e max
      */
-    function randomNumberInRange(min, max) {
+    /*function randomNumberInRange(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
+    };*/
 
     /**
      * DOC

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import {
     MDBBtn
 } from 'mdb-react-ui-kit';
-import { reload, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
 import { doc, updateDoc } from "firebase/firestore";
