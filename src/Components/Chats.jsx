@@ -4,6 +4,12 @@ import { ChatContext } from "../Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 const Chats = () => {
 
@@ -11,21 +17,35 @@ const Chats = () => {
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch, data } = useContext(ChatContext);
+  let SESSION_KEY;
 
+  const decryptMessage = (chat, key) => {
+    try {
+      
+    } catch (error) {
+        return chat;
+    }
+  };
 
   useEffect(() => {
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        setChats(doc.data());
+        if(doc.exists()) {
+          const docData = doc.data();
+          if(docData) {
+            const encryptedChat = docData;
+            setChats(encryptedChat);
+          }
+        }
       });
 
-    return () => {
-      unsub();
+      return () => {
+        unsub();
+      };
     };
-  };
     
     currentUser.uid && getChats();
-  }, [currentUser.uid]);
+  }, [currentUser.uid, data.sessionKey]);
 
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });

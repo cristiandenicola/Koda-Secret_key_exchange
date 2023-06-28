@@ -21,7 +21,6 @@ const Messages = () => {
                 text: decryptedText,
             };
         } catch (error) {
-            //console.error(error) se scommentato dice che i messaggi sono deformi ma decifratura funziona
             return message;
         }
     };
@@ -35,13 +34,17 @@ const Messages = () => {
                     setMessages(encryptedMessages);
 
                     if(data.sessionKey) {
-                        data.sessionKey.then((value) => {
-                            SESSION_KEY = value;
-                            if (encryptedMessages && encryptedMessages.length > 0) {
-                                const decrypted = encryptedMessages.map((message) => decryptMessage(message, SESSION_KEY));
-                                setMessages(decrypted);
-                            }
-                        });
+                        try {
+                            data.sessionKey.then((value) => {
+                                SESSION_KEY = value;
+                                if (encryptedMessages && encryptedMessages.length > 0) {
+                                    const decrypted = encryptedMessages.map((message) => decryptMessage(message, SESSION_KEY));
+                                    setMessages(decrypted);
+                                }
+                            });
+                        } catch (error) {
+                            console.error(error);
+                        }
                     }
                 }
             }

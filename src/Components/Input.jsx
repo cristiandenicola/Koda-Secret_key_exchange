@@ -40,12 +40,12 @@ const Input = () => {
                 if(data && data.chatId && data.sessionKey) {
                     data.sessionKey.then(
                         value => {
-                            SESSION_KEY = value
-                            
+                            SESSION_KEY = value;
+                            let encryptedMessage = encryptMessage(text, SESSION_KEY);
                             updateDoc(doc(db, "chats", data.chatId), { //metodo usato per salvare dentro il db il messaggio
                                 messages: arrayUnion({
                                     id: uuid(),
-                                    text: encryptMessage(text, SESSION_KEY),
+                                    text: encryptedMessage,
                                     senderId: currentUser.uid,
                                     date: Timestamp.now(),
                                 }),
@@ -53,14 +53,14 @@ const Input = () => {
         
                             updateDoc(doc(db, "userChats", currentUser.uid), { //metodo usato x salvare in userChats mittente l'ultimo mex
                                 [data.chatId + ".lastMessage"]: {
-                                    text: encryptMessage(text, SESSION_KEY),
+                                    text: encryptedMessage,
                                 },
                                 [data.chatId + ".date"]: serverTimestamp(),
                             });
                           
                             updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
                                 [data.chatId + ".lastMessage"]: {
-                                    text: encryptMessage(text, SESSION_KEY),
+                                    text: encryptedMessage,
                                 },
                                 [data.chatId + ".date"]: serverTimestamp(),
                             });
