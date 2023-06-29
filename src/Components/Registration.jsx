@@ -13,7 +13,8 @@ import {
 } from 'mdb-react-ui-kit';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { auth, storage, db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import sodium from "libsodium-wrappers";
 
 import image from '../Assets/Data_security_26.jpg';
 import Add from "../Assets/addAvatar.png";
@@ -34,18 +35,23 @@ const Registration = () => {
 
     const navigate = useNavigate();
 
+    let PUBLIC_KEY;
+    let SECRET_KEY;
 
 
-    /**
-     * DOC
-     * funzione usata per generare un numero casuale tra 10000 e 99999 che verrà usato per la creazione dell'unique tag
-     * @param {*} min settato poi a 10000
-     * @param {*} max settato a 99999
-     * @returns numero casuale tra min e max
-     */
-    /*function randomNumberInRange(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };*/
+
+    const generateUserKeys = () => {
+        const USER_KEYS = sodium.crypto_kx_keypair();
+        //usando crypto_kx ottengo una coppia di key basate sull'algoritmo X25519 che usa la curva Curve25519
+
+        //console.log("chiave pub: " + USER_KEYS.publicKey);
+        //console.log("chiave seg: " + USER_KEYS.privateKey);
+
+        const PUBLIC_KEY = sodium.to_hex(USER_KEYS.publicKey);
+        const SECRET_KEY = sodium.to_hex(USER_KEYS.privateKey)
+
+        return { PUBLIC_KEY, SECRET_KEY};
+    };
 
     /**
      * DOC
@@ -83,6 +89,18 @@ const Registration = () => {
                         //create empty chats on firestone
                         await setDoc(doc(db, "userChats", res.user.uid), {});
                         navigate('/account'); 
+
+                        const keys = generateUserKeys();
+                        PUBLIC_KEY = keys.PUBLIC_KEY;
+                        SECRET_KEY = keys.SECRET_KEY;
+
+                        //salvo la chiave segreta all'interno del local storage in modo da poterla usare per tutta la sessione
+                        localStorage.setItem('secretKey', SECRET_KEY);
+
+                        updateDoc(doc(db, "users", res.user.uid), { 
+                            publicKey: PUBLIC_KEY,
+                        });
+
                     } catch (error) {
                         console.log(error);
                         setError(true);

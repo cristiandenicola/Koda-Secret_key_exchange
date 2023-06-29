@@ -54,7 +54,7 @@ const Search = () => {
     
             if (!res.exists()) {
                 //create a chat in chats collection
-                await setDoc(doc(db, "chats", combinedId), { messages: [] });
+                await setDoc(doc(db, "chats", combinedId), { messages: [], users: combinedId });
         
                 //create user chats
                 await updateDoc(doc(db, "userChats", currentUser.uid), {
@@ -84,7 +84,7 @@ const Search = () => {
     return (
         <div className="search">
             <div className="searchForm">
-            <MDBInput wrapperClass='mb-4' label='Find a user' onKeyDown={handleKey} value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
+            <MDBInput wrapperClass='mb-4' label='Find a user...' onKeyDown={handleKey} value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
             </div>
             {error && <span>User not found!</span>}
             {user && ( 

@@ -16,7 +16,7 @@ import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import image from '../Assets/Data_security_26.jpg';
 import ValidationLogin from "../ValidationLogin";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
 import NavbarAccount from "./NavbarAccount";
 import { AuthContext } from "../Context/AuthContext";
 import sodium from "libsodium-wrappers";
@@ -50,6 +50,10 @@ const Login = () => {
         return { PUBLIC_KEY, SECRET_KEY};
     };
 
+    async function generateUserChats(user) {
+        //create empty chats on firestone
+        await setDoc(doc(db, "userChats", user.uid), {});
+    }
     /**
      * metodo usato per salvare la public key generata nel database
      * per permettere poi in fase di selezione chat di generare la chiave simmetrica.
@@ -71,6 +75,7 @@ const Login = () => {
         setError('');
         try {
             await signInWithEmailAndPassword(auth, email, password);
+            await generateUserChats(auth.currentUser);
             navigate('/account');
             
             const keys = generateUserKeys();
