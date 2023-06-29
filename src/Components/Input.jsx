@@ -26,9 +26,13 @@ const Input = () => {
     };
 
     const encryptMessage = (message, key) => {
-        const utf8Text = CryptoJS.enc.Utf8.parse(message)
-        const encryptedMessage = CryptoJS.AES.encrypt(utf8Text, key).toString();
-        return encryptedMessage;
+        try {
+            const utf8Text = CryptoJS.enc.Utf8.parse(message)
+            const encryptedMessage = CryptoJS.AES.encrypt(utf8Text, key).toString();
+            return encryptedMessage;
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     const handleSend = async () => {
@@ -57,14 +61,14 @@ const Input = () => {
                                 },
                                 [data.chatId + ".date"]: serverTimestamp(),
                             });
-                          
+                        
                             updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
                                 [data.chatId + ".lastMessage"]: {
                                     text: encryptedMessage,
                                 },
                                 [data.chatId + ".date"]: serverTimestamp(),
                             });
-                              
+                            
                             setText("");
                         }
                     )

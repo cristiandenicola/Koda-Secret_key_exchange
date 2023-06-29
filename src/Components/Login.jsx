@@ -13,12 +13,10 @@ import {
     MDBCardBody
 } from 'mdb-react-ui-kit';
 import { auth, db } from '../firebase';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
 import image from '../Assets/Data_security_26.jpg';
 import ValidationLogin from "../ValidationLogin";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
-import NavbarAccount from "./NavbarAccount";
-import { AuthContext } from "../Context/AuthContext";
 import sodium from "libsodium-wrappers";
 
 
@@ -70,9 +68,19 @@ const Login = () => {
         };
     };
 
+    const handleGuestSignIn = async (e) => {
+        try {
+            await signInAnonymously(auth)
+            navigate('/guest');
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleSignIn = async (e) => {
         e.preventDefault();
         setError('');
+
         try {
             await signInWithEmailAndPassword(auth, email, password);
             await generateUserChats(auth.currentUser);
@@ -82,12 +90,9 @@ const Login = () => {
             PUBLIC_KEY = keys.PUBLIC_KEY;
             SECRET_KEY = keys.SECRET_KEY;
 
-            //salvo la chiave segreta all'interno del local storage in modo da poterla usare per tutta la sessione
             localStorage.setItem('secretKey', SECRET_KEY); 
 
-            //salvo la public key nel database (volendo posso salvarla anche lei nel local storage invece che nel db)
             saveUserPK(PUBLIC_KEY, auth.currentUser)
-
         } catch (error) {
             setError(true);
         }
@@ -118,18 +123,17 @@ const Login = () => {
                                 <div className="divider flex align-items-center my-4">
                                     <p className="text-center fw-bold mx-3 mb-0">OR</p>
                                 </div>
-
-                                <MDBBtn className="ms-2 w-100" size="lg" style={{backgroundColor: '#dd4b39'}}>
-                                    <MDBIcon fab icon='google ' className="mx-2"/>
-                                        Continue with Google
-                                </MDBBtn>
                             </form>
+                            <MDBBtn className="ms-2 w-100" size="lg" onClick={handleGuestSignIn} style={{backgroundColor: '#dd4b39'}}>
+                                <MDBIcon icon='users ' className="mx-2"/>
+                                    Continue as a guest
+                            </MDBBtn>
                         </MDBCardBody>
                     </MDBCard>
                 </MDBCol>
             </MDBRow>
         </MDBContainer>
-    )
+    );
 }
 
 export default Login;
