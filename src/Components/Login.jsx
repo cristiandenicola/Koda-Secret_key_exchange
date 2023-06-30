@@ -29,7 +29,6 @@ const Login = () => {
     let PUBLIC_KEY;
     let SECRET_KEY;
 
-
     /**
      * metodo usato x la generazione della keyPair
      * in particolare viene usato l'algoritmo X25519 che usa la curva Curve25519 (ellittico).

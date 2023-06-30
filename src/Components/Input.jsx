@@ -37,7 +37,6 @@ const Input = () => {
 
     const handleSend = async () => {
         if(text === ""){
-            //controllo dell'input in caso il mex sia vuoto non viene inviato nulla
             console.log("messaggio non valido");
         } else {
             try {
@@ -45,31 +44,35 @@ const Input = () => {
                     data.sessionKey.then(
                         value => {
                             SESSION_KEY = value;
-                            let encryptedMessage = encryptMessage(text, SESSION_KEY);
-                            updateDoc(doc(db, "chats", data.chatId), { //metodo usato per salvare dentro il db il messaggio
-                                messages: arrayUnion({
-                                    id: uuid(),
-                                    text: encryptedMessage,
-                                    senderId: currentUser.uid,
-                                    date: Timestamp.now(),
-                                }),
-                            });
+                            if(SESSION_KEY === undefined) {
+                                alert("l'utente al momento è offline, non è possibile comunicare");
+                            } else {
+                                let encryptedMessage = encryptMessage(text, SESSION_KEY);
+                                updateDoc(doc(db, "chats", data.chatId), {
+                                    messages: arrayUnion({
+                                        id: uuid(),
+                                        text: encryptedMessage,
+                                        senderId: currentUser.uid,
+                                        date: Timestamp.now(),
+                                    }),
+                                });
         
-                            updateDoc(doc(db, "userChats", currentUser.uid), { //metodo usato x salvare in userChats mittente l'ultimo mex
-                                [data.chatId + ".lastMessage"]: {
-                                    text: encryptedMessage,
-                                },
-                                [data.chatId + ".date"]: serverTimestamp(),
-                            });
+                                updateDoc(doc(db, "userChats", currentUser.uid), {
+                                    [data.chatId + ".lastMessage"]: {
+                                        text: encryptedMessage,
+                                    },
+                                    [data.chatId + ".date"]: serverTimestamp(),
+                                });
                         
-                            updateDoc(doc(db, "userChats", data.user.uid), { //metodo usato x salvare in userChats destinatario l'ultimo mex
-                                [data.chatId + ".lastMessage"]: {
-                                    text: encryptedMessage,
-                                },
-                                [data.chatId + ".date"]: serverTimestamp(),
-                            });
+                                updateDoc(doc(db, "userChats", data.user.uid), {
+                                    [data.chatId + ".lastMessage"]: {
+                                        text: encryptedMessage,
+                                    },
+                                    [data.chatId + ".date"]: serverTimestamp(),
+                                });
                             
-                            setText("");
+                                setText("");
+                            }
                         }
                     )
                 }

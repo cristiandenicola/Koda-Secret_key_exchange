@@ -37,18 +37,18 @@ export const ChatContextProvider = ({ children }) => {
         );
 
         const querySnapshot = await getDocs(q);
-        let pubKdest = null;
+        let publicKeyDest = null;
 
         try {
             querySnapshot.forEach((doc) => {
-                pubKdest = doc.data().publicKey;
-                console.log("%cpublic key dest: "+ pubKdest, 'color: green');
+                publicKeyDest = doc.data().publicKey;
+                console.log("%cpublic key dest: "+ publicKeyDest, 'color: green');
             });
         } catch (error) {
-            console.error("utente non disponibile al momento");
-            pubKdest = "";
+            console.error("utente offline");
+            publicKeyDest = "";
         }
-        return pubKdest;
+        return publicKeyDest;
     };
 
 
@@ -65,23 +65,25 @@ export const ChatContextProvider = ({ children }) => {
             const DEST_PUBLIC_KEY = await retrievePublicKey(user);
             const MITT_PRIVATE_KEY = localStorage.getItem('secretKey');
 
-            //x permettere il calcolo della chiave di sessione riporto le chiavi al loro stato originale 
-            //tramite funzione di libreria from_hex
-            const mittPrivateKeyTOBytes = sodium.from_hex(MITT_PRIVATE_KEY);
-            const destPublicKeyTOBytes = sodium.from_hex(DEST_PUBLIC_KEY);
+            if(DEST_PUBLIC_KEY != ""){
+                //x permettere il calcolo della chiave di sessione riporto le chiavi al loro stato originale 
+                //tramite funzione di libreria from_hex
+                const mittPrivateKeyTOBytes = sodium.from_hex(MITT_PRIVATE_KEY);
+                const destPublicKeyTOBytes = sodium.from_hex(DEST_PUBLIC_KEY);
 
-            //calcolo SessionK usando il metodo crypto_scalarmult che prende in input le due chiavi in bytes calcolate prima
-            //e restituisce la chiave di sessione in bytes
-            const keySessionBYTES = sodium.crypto_scalarmult(mittPrivateKeyTOBytes, destPublicKeyTOBytes);
-            //console.log(keySessionBYTES);
+                //calcolo SessionK usando il metodo crypto_scalarmult che prende in input le due chiavi in bytes calcolate prima
+                //e restituisce la chiave di sessione in bytes
+                const keySessionBYTES = sodium.crypto_scalarmult(mittPrivateKeyTOBytes, destPublicKeyTOBytes);
 
-            //infine vado a portare la chiave da bytes in hex
-            const SESSION_KEY = sodium.to_hex(keySessionBYTES);
-            //console.log("CHIAVE SIMMETRICA DI SESSIONE: "+ SESSION_KEY);
+                //infine vado a portare la chiave da bytes in hex
+                const SESSION_KEY = sodium.to_hex(keySessionBYTES);
 
-            return SESSION_KEY;
+                return SESSION_KEY;
+            }else {
+                alert("l'utente al momento è offline, non è possibile comunicare");
+            }
         } catch (error) {
-            console.error("l'utente selezionato non è disponibile al momento");
+            alert("l'utente selezionato non è disponibile al momento");
         }
     };
 

@@ -50,30 +50,32 @@ const Search = () => {
                 ? currentUser.uid + user.uid
                 : user.uid + currentUser.uid;
         try {
-            const res = await getDoc(doc(db, "chats", combinedId));
+            if(user.publicKey === "") {
+                alert("utente al momento offline...")
+            } else {
+                const res = await getDoc(doc(db, "chats", combinedId));
     
-            if (!res.exists()) {
-                //create a chat in chats collection
-                await setDoc(doc(db, "chats", combinedId), { messages: [], users: combinedId });
+                if (!res.exists()) {
+                    await setDoc(doc(db, "chats", combinedId), { messages: [], users: combinedId });
         
-                //create user chats
-                await updateDoc(doc(db, "userChats", currentUser.uid), {
-                    [combinedId + ".userInfo"]: {
-                        uid: user.uid,
-                        displayName: user.displayName,
-                        photoURL: user.photoURL,
-                    },
-                    [combinedId + ".date"]: serverTimestamp(),
-                });
+                    await updateDoc(doc(db, "userChats", currentUser.uid), {
+                        [combinedId + ".userInfo"]: {
+                            uid: user.uid,
+                            displayName: user.displayName,
+                            photoURL: user.photoURL,
+                        },
+                        [combinedId + ".date"]: serverTimestamp(),
+                    });
         
-                await updateDoc(doc(db, "userChats", user.uid), {
-                    [combinedId + ".userInfo"]: {
-                        uid: currentUser.uid,
-                        displayName: currentUser.displayName,
-                        photoURL: currentUser.photoURL,
-                    },
-                    [combinedId + ".date"]: serverTimestamp(),
-                });
+                    await updateDoc(doc(db, "userChats", user.uid), {
+                        [combinedId + ".userInfo"]: {
+                            uid: currentUser.uid,
+                            displayName: currentUser.displayName,
+                            photoURL: currentUser.photoURL,
+                        },
+                        [combinedId + ".date"]: serverTimestamp(),
+                    });
+                }
             }
         } catch (error) {}
     
@@ -100,7 +102,3 @@ const Search = () => {
 };
 
 export default Search;
-
-//Capire perchè quando clicco chat sparisce ma salva su db
-
-//QUANDO CLICCO SU RICERCA NON CREA LA STANZA !!!!!!
