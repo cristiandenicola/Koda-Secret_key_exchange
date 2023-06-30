@@ -12,11 +12,11 @@ const Sidebar = () => {
         <div className="sidebar">
             <NavbarAccount/>
             <Search/>
-            <Chats/>
             <div className="roomsBtn">
-            <MDBBtn rounded type="button" className="btn btn-primary btn-lg" color='light' rippleColor='dark' style={{width:'180px'}}>Create a room</MDBBtn>
-            <MDBBtn rounded type="button" className="btn btn-primary btn-lg" color='light' rippleColor='dark' style={{width:'180px'}}>Join a room</MDBBtn>
+            <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' >Create a room</MDBBtn>
+            <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' >Join a room</MDBBtn>
             </div>
+            <Chats/>
         </div>
     );
 };

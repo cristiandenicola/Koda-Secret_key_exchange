@@ -7,7 +7,7 @@ const Message = ({ message }) => {
 
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
-
+    let date;
     const ref = useRef();
 
     useEffect(() => {
@@ -26,7 +26,10 @@ const Message = ({ message }) => {
                     } 
                     alt=""
                 />
-                <span>now</span>
+                <span style={{fontSize:'11px', padding:'5px', marginLeft:'3px'}}>
+                {message.date.toDate().getHours().toString().padStart(2, "0")}:
+                {message.date.toDate().getMinutes().toString().padStart(2, "0")}
+                </span>
             </div>
             <div className="messageContent">
                 <p className="mexBox">{message.text}</p>

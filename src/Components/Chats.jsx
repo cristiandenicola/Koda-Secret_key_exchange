@@ -8,21 +8,18 @@ import CryptoJS from "crypto-js";
 const Chats = () => {
 
   const [chats, setChats] = useState([]);
+  const [sessionKey, setSessionKey] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch, data } = useContext(ChatContext);
 
-  const decryptMessage = (chat, key) => { //questo dovrebbe essere corretto guardando come fatto in messages
+
+  const decryptMessage = (message, key) => {
     try {
-      const decryptedText = CryptoJS.AES.decrypt(chat.lastMessage?.text, key).toString(CryptoJS.enc.Utf8);
-            return {
-              ...chat,
-              lastMessage: {
-                text: decryptedText,
-              },
-            };
+      const decryptedText = CryptoJS.AES.decrypt(message, key).toString(CryptoJS.enc.Utf8);
+      return decryptedText;
     } catch (error) {
-      return chat;
+      return message;
     }
   };
 
@@ -38,7 +35,19 @@ const Chats = () => {
     };
     
     currentUser.uid && getChats();
-  }, [currentUser.uid, data.sessionKey]);
+  }, [currentUser.uid]);
+
+  useEffect(() => {
+    try {
+      if (data.sessionKey) {
+        data.sessionKey.then((value) => {
+          setSessionKey(value);
+        });
+      }
+    } catch (error) {
+      
+    }
+  }, [data.sessionKey]);
 
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });
@@ -46,24 +55,29 @@ const Chats = () => {
 
   function renderChats(chats) {
     try {
-      return Object.entries(chats)
-        .sort((a,b) => b[1].date - a[1].date)
-        .map((chat) => (
-          <div
-            className="userChat"
-            key={chat[0]}
-            onClick={() => handleSelect(chat[1].userInfo)}
-          >
-          <img className="userChatImg" src={chat[1].userInfo.photoURL} alt="" />
-          <div className="userChatInfo">
-            <span className="spanName">{chat[1].userInfo.displayName}</span>
-            <p className="pMessage">{chat[1].lastMessage?.text}</p>
-          </div>
-        </div>
-        ));
+      if(data.sessionKey) {
+          return Object.entries(chats)
+            .sort((a,b) => b[1].date - a[1].date)
+            .map((chat) => (
+              <div
+                className="userChat"
+                key={chat[0]}
+                onClick={() => handleSelect(chat[1].userInfo)}
+              >
+                <img className="userChatImg" src={chat[1].userInfo.photoURL} alt="" />
+                <div className="userChatInfo">
+                <span className="spanName">{chat[1].userInfo.displayName}</span>
+                <p className="pMessage" style={{marginBottom:'0px'}}>
+                  {decryptMessage(chat[1].lastMessage?.text, sessionKey)}
+                </p>
+              </div>
+            </div>
+            )
+          );
+      };
     } catch (error) {}
   }
-    
+
   return (
     <div className="chats">{renderChats(chats)}</div>
   );

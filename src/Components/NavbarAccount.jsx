@@ -58,11 +58,10 @@ const NavbarAccount = () => {
 
     return (
         <div className='navbar'>
-            <span className="logoAcc">KODA</span>
             <div className="user">
                 <img className="profilePic" src={currentUser.photoURL} alt="" style={{marginTop:'3px'}}/>
                 <span style={{marginTop:'2px'}}>{currentUser.displayName}</span>
-                <MDBBtn rounded size="sm" color='light' rippleColor='dark' onClick={() => Logout()}>Log out</MDBBtn>
+                <MDBBtn rounded size="sm" color='transparent' onClick={() => Logout()} style={{position:'absolute', right:'5px', background:'transparent', color:'#ddddf7'}}>Log out</MDBBtn>
             </div>
         </div>
     )

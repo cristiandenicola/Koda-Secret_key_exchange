@@ -7,15 +7,14 @@ import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../Context/ChatContext";
 
-
 const Chat = () => {
-
     const { data } = useContext(ChatContext);
 
     return (
         <div className="chat">
             <div className="chatInfo">
                 <div className="divInfo">
+                    {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" />}
                     <span className="chatInfoName">{data.user?.displayName}</span>
                 </div>
                 <div className="chatIcons">

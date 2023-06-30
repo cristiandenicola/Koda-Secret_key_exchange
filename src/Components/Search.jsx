@@ -86,7 +86,10 @@ const Search = () => {
     return (
         <div className="search">
             <div className="searchForm">
-            <MDBInput wrapperClass='mb-4' label='Find a user...' onKeyDown={handleKey} value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
+            <div className="myChats">
+                    <p className="chats">Chat</p>
+                </div>
+                <MDBInput wrapperClass='mb-4' label='Find a user...' onKeyDown={handleKey} value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
             </div>
             {error && <span>User not found!</span>}
             {user && ( 

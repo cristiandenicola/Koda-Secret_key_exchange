@@ -129,14 +129,10 @@ li {
             padding: 10px;
             justify-content: space-between;
             color: #ddddf7;
-
-            .logoAcc {
-                font-size: 20px;
-            }    
-   
+    
             .user {
-               display: flex;
-               gap: 10px;
+                display: flex;
+                gap: 10px;
     
                 .profilePic {
                     background-color: #ddddf7;
@@ -153,6 +149,18 @@ li {
             .searchForm{
                 padding: 10px;
 
+                .myChats{
+                    display: flex;
+                    padding: 0px;
+                    height: 70px;
+        
+                    .chats {
+                        color: #ddddf7;
+                        font-size: 40px;
+                        font-weight: 700;
+                    }
+                }
+
                 .searchInput{
                     background-color: transparent;
                     border: none;
@@ -161,7 +169,15 @@ li {
                 }
             }
         }
+        .roomsBtn{
+            margin-top: 15px;
+            display: flex;
+            padding: 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
         .userChat{
+            margin-top: 10px;
             padding: 10px;
             display: flex;
             align-items: center;
@@ -185,7 +201,8 @@ li {
                     font-weight: 500;
                 }
                 .pMessage {
-                    font-size: 14px;
+                    font-size: 12px;
+                    margin-top: -5px;
                     color: lightgray;
                     text-overflow: ellipsis;
                     display: block;
@@ -194,16 +211,6 @@ li {
                     white-space: nowrap;
                 }
             }
-        }
-        .roomsBtn{
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-flow: column wrap;
-            position: absolute;
-            bottom: 2%;
         }
     }
     .chat {
@@ -217,7 +224,7 @@ li {
             align-items: center;
             justify-content: space-between;
             padding: 10px;
-            color: lightgray;
+            color: #ddddf7;
             margin-right: -12px;
 
             .divInfo {
@@ -227,16 +234,16 @@ li {
                 gap: 20px;
 
                 .chatInfoPic {
-                    width: 40px;
-                    height: 40px;
-                    align-items: center;
+                    width: 38px;
+                    height: 38px;
                     border-radius: 50%;
-                    margin-bottom: 3px;
-                    background-color: transparent;
+                    background-color: #5d5b8d;
+                    border: transparent;
                 }
     
                 .chatInfoName {
-                    font-size: 18px;
+                    margin-left: -10px;
+                    font-size: 20px;
                     font-weight: 500;
                 }
             }
