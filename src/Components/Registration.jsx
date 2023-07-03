@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import {
@@ -18,7 +18,7 @@ import sodium from "libsodium-wrappers";
 
 import image from '../Assets/Data_security_26.jpg';
 import Add from "../Assets/addAvatar.png";
-//import Validation from "../Validation";
+import Validation from "../Validation";
 import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
 
 
@@ -71,6 +71,10 @@ const Registration = () => {
             const storageRef = ref(storage, `${displayName + date}`);
 
 
+            if(avatar === '') {
+                setAvatar(Add)
+            }
+            
             await uploadBytesResumable(storageRef, avatar).then(() => {
                 getDownloadURL(storageRef).then(async (getDownloadURL) => {
                     try {
@@ -113,6 +117,7 @@ const Registration = () => {
             setLoading(false);
         }
     };
+    
 
     return (
         <MDBContainer fluid className="p-3 my-5">
@@ -131,7 +136,7 @@ const Registration = () => {
                                 <MDBInput wrapperClass='mb-4' label='Password' autoComplete="on" id='formPassword' required type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 {error.password && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.password}</p>}
 
-                                <input style={{display:"none"}} type="file" id="file" onChange={(e) => setAvatar(e.target.files[0])}/>
+                                <input style={{display:"none"}}  required type="file" id="file" onChange={(e) => setAvatar(e.target.files[0])}/>
                                 <label htmlFor="file" className="labelAvatar">
                                     <img className="imgAvatar" src={Add} alt="" style={{width: "32px"}}/>
                                     <span>Add an avatar</span>

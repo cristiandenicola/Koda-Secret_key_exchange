@@ -22,6 +22,7 @@ export const ChatContextProvider = ({ children }) => {
         chatId: "null",
         user: {},
         sessionKey: "null",
+        selectedUser: false,
     };
 
     /**
@@ -65,7 +66,7 @@ export const ChatContextProvider = ({ children }) => {
             const DEST_PUBLIC_KEY = await retrievePublicKey(user);
             const MITT_PRIVATE_KEY = localStorage.getItem('secretKey');
 
-            if(DEST_PUBLIC_KEY != ""){
+            if(DEST_PUBLIC_KEY !== ""){
                 //x permettere il calcolo della chiave di sessione riporto le chiavi al loro stato originale 
                 //tramite funzione di libreria from_hex
                 const mittPrivateKeyTOBytes = sodium.from_hex(MITT_PRIVATE_KEY);
@@ -97,6 +98,7 @@ export const ChatContextProvider = ({ children }) => {
                             ? currentUser.uid + action.payload.uid
                             : action.payload.uid + currentUser.uid,
                     sessionKey: calculateSessionKey(action.payload),
+                    selectedUser: true,
                 };
                 
             default:

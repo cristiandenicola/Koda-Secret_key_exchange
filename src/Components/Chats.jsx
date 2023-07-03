@@ -5,6 +5,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js";
 
+
 const Chats = () => {
 
   const [chats, setChats] = useState([]);
@@ -79,7 +80,10 @@ const Chats = () => {
   }
 
   return (
-    <div className="chats">{renderChats(chats)}</div>
+    <div className="chats">
+      {!data.selectedUser ?<p style={{display:'flex', alignItems:'center', justifyContent:'center', color:'#ddddf7', fontSize:'11px', marginTop:'20px'}}>Your chats will be displayed here</p> : <p></p>}
+      {renderChats(chats)}
+    </div>
   );
 };
 

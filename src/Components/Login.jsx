@@ -117,7 +117,7 @@ const Login = () => {
                                 </div>
 
                                 <MDBBtn className="mb-4 w-100" size="lg">Sign in</MDBBtn>
-                                {error && <span>Something went wrong</span>}
+                                {error && <span>You have entered an invalid email or password</span>}
 
                                 <div className="divider flex align-items-center my-4">
                                     <p className="text-center fw-bold mx-3 mb-0">OR</p>

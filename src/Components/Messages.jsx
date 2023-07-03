@@ -5,7 +5,6 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js";
 
-
 const Messages = () => {
 
     const [messages, setMessages] = useState([]);
@@ -58,6 +57,14 @@ const Messages = () => {
 
     return (
         <div className="messages">
+            {!data.selectedUser ? (
+                <div style={{alignItems:'center', justifyContent:'center', display: 'flex', flexDirection:'column', padding:'10px'}}>
+                    <iframe src="https://embed.lottiefiles.com/animation/91574" style={{width:'400px', height:'400px'}}></iframe>
+                    <p style={{fontSize:'16px', fontWeight:'bold', marginTop:'-70px'}}>Search for starting a new conversation..</p>
+                </div>
+            ) : (
+                <p></p>
+            )}
             {messages.map((m, index) => (
                 <Message message={m} key={index} />
             ))}
