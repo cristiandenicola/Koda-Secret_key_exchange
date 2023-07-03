@@ -177,7 +177,6 @@ li {
             justify-content: space-between;
         }
         .userChat{
-            margin-top: 10px;
             padding: 10px;
             display: flex;
             align-items: center;
@@ -190,14 +189,14 @@ li {
             }
                     
             .userChatImg {
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
                 border-radius: 50%;
             }
 
             .userChatInfo {
                 .spanName {
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 500;
                 }
                 .pMessage {

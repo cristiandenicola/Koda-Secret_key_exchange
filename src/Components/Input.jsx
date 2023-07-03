@@ -78,7 +78,7 @@ const Input = () => {
                 }
             } catch (error) {
                 console.error(error);
-                console.log("seleziona una chat per iniziare!")
+                alert("Crea una chat per iniziare!");
             }
         }
     };
