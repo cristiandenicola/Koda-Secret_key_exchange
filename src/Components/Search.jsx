@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     MDBInput
 } from 'mdb-react-ui-kit';
@@ -24,25 +24,32 @@ const Search = () => {
 
     const { currentUser } = useContext(AuthContext);
 
-    const handleSearch = async () => {
-        const q = query(
-            collection(db, "users"),
-            where("displayName", "==", username)
-        );
+    useEffect(() => {
+        const handleSearch = async () => {
+            if (username !== "") {
+                const q = query(
+                    collection(db, "users"),
+                    where("displayName", ">=", username),
+                    where("displayName", "<=", username + '\uf8ff')
+                );
 
-        try {
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                setUser(doc.data());
-            });
-        } catch (error) {
-            setError(true);
-        }
-    };
+                try {
+                    const querySnapshot = await getDocs(q);
+                    const foundUsers = querySnapshot.docs.map((doc) => doc.data());
+                    setUser(foundUsers.length > 0 ? foundUsers[0] : null);
+                    if(foundUsers.length === 0) {setError(true)}
+                } catch (error) {
+                    setError(true);
+                }
+            } else {
+                setUser(null);
+                setError(false);
+            }
+        };
 
-    const handleKey = (e) => {
-        e.code === "Enter" && handleSearch();
-    };
+        handleSearch();
+    }, [username]);
+
 
     const handleSelect = async () => {
         const combinedId =
@@ -89,14 +96,16 @@ const Search = () => {
             <div className="myChats">
                     <p className="chats">Chat</p>
                 </div>
-                <MDBInput wrapperClass='mb-4' label='Find a user...' onKeyDown={handleKey} value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
+                <MDBInput wrapperClass='mb-4' label='Find a user...' value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
             </div>
-            {error && <span>User not found!</span>}
+            {error && <span style={{display:'flex', alignItems:'center', justifyContent:'center', color:'#ddddf7', fontSize:'11px'}}>User not found!</span>}
             {user && ( 
-                <div className="userChat" onClick={handleSelect}>
-                    <img className="userChatImg" src={user.photoURL} alt=""/>
-                    <div className="userChatInfo">
-                        <span className="spanName">{user.displayName}</span>
+                <div className="userList">
+                    <div className="userChat" onClick={handleSelect}>
+                        <img className="userChatImg" src={user.photoURL} alt=""/>
+                        <div className="userChatInfo">
+                            <span className="spanName">{user.displayName}</span>
+                        </div>
                     </div>
                 </div>
             )}
