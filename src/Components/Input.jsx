@@ -86,7 +86,7 @@ const Input = () => {
     return (
         <div className="input">
             <div className="inputType">
-                <MDBInput className="prova" label='Type something...' id='formName' type='text' size="sm" onKeyDown={handleKey} value={text} onChange={(e) => setText(e.target.value)} style={{backgroundColor:'white'}}/>
+                <MDBInput className="inputText" label='Type something...' id='formName' type='text' size="sm" onKeyDown={handleKey} value={text} onChange={(e) => setText(e.target.value)} style={{backgroundColor:'white'}}/>
                 <div className="send">
                     <MDBBtn rounded size="sm" color='light' rippleColor='dark' onClick={handleSend}>
                         <MDBIcon fas icon='paper-plane' />

@@ -100,8 +100,10 @@ const Search = () => {
             </div>
             {error && <span style={{display:'flex', alignItems:'center', justifyContent:'center', color:'#ddddf7', fontSize:'11px'}}>User not found!</span>}
             {user && ( 
-                <div className="userChat" onClick={handleSelect}>
+                <div className="userChat" onClick={handleSelect} style={{position:'relative'}}>
                     <img className="userChatImg" src={user.photoURL} alt=""/>
+                    {user.publicKey !== "" && <div className="divOnline"></div>}
+                    {user.publicKey === "" && <div className="divOnline" style={{backgroundColor:'gray'}}></div>}
                     <div className="userChatInfo">
                         <span className="spanName">{user.displayName}</span>
                     </div>

@@ -66,6 +66,7 @@ const Chats = () => {
                 onClick={() => handleSelect(chat[1].userInfo)}
               >
                 <img className="userChatImg" src={chat[1].userInfo.photoURL} alt="" />
+                {data.user.publicKey !== "" && <div className="divOnline"></div>}
                 <div className="userChatInfo">
                 <span className="spanName">{chat[1].userInfo.displayName}</span>
                 <p className="pMessage" style={{marginBottom:'0px'}}>

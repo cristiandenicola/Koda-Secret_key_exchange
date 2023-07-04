@@ -9,10 +9,8 @@ const Account = () => {
 
     return (
         <div className="home">
-            <div className="container">
-                <Sidebar/>
-                <Chat/>
-            </div>
+            <Sidebar/>
+            <Chat/>
         </div>
     );
 }

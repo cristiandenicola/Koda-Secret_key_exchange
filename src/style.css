@@ -104,6 +104,11 @@ li {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid white;
+    display: flex;
+    overflow: hidden;
+    border: transparent;
+    
 
     .container {
         border: 1px solid white;
@@ -118,8 +123,9 @@ li {
         flex: 1;
         background-color: #3e3c61;
         position: relative;
-        margin-left: -12px;
-        max-width: 350px;
+        max-width: 400px;
+        height: 100%;
+        padding: 10px;
 
         .navbar {
             display: flex;
@@ -127,6 +133,7 @@ li {
             background-color: #2f2d52;
             height: 50px;
             padding: 10px;
+            border-radius: 10px;
             justify-content: space-between;
             color: #ddddf7;
     
@@ -178,6 +185,8 @@ li {
         }
         .userChat{
             padding: 10px;
+            background-color: #2e2b52;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -185,7 +194,44 @@ li {
             cursor: pointer;  
             
             &:hover {
-                background-color: #2f2d52;
+                background-color: #1a1836;
+            }
+
+            .divOnline {
+                width:10px;
+                height:10px; 
+                border-radius:50px; 
+                background-color:#44b700;
+                position:relative;
+                left: 0;
+                border: 1px solid currentColor;
+                margin-top: 20px;
+                margin-left: -18px;
+                -webkit-animation: ripple 1s infinite alternate;
+                animation: ripple 1s infinite alternate;
+            }
+            @-webkit-keyframes ripple {
+                0% {
+                    -webkit-transform: scale(.8);
+                    transform: scale(0.8);
+                    opacity: 1;
+                }
+                100% {
+                    -webkit-transform: scale(2.4);
+                    transform:scale(2.4);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes ripple {
+                0% {
+                    transform: scale(.8);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(2.4);
+                    opacity: 0;
+                }
             }
                     
             .userChatImg {
@@ -214,7 +260,8 @@ li {
     }
     .chat {
         flex: 2;
-        height: 100.1%;
+        height: 100.2%;
+        padding-right: 10px;
 
         .chatInfo {
             height: 50px;
@@ -232,9 +279,46 @@ li {
                 justify-content: space-between;
                 gap: 20px;
 
+                .divOnline {
+                    width:10px;
+                    height:10px; 
+                    border-radius:50px; 
+                    background-color:#44b700;
+                    position:relative;
+                    left: 0;
+                    border: 1px solid currentColor;
+                    margin-top: 20px;
+                    margin-left: -28px;
+                    -webkit-animation: ripple 1s infinite alternate;
+                    animation: ripple 1s infinite alternate;
+                }
+                @-webkit-keyframes ripple {
+                    0% {
+                        -webkit-transform: scale(.8);
+                        transform: scale(0.8);
+                        opacity: 1;
+                    }
+                    100% {
+                        -webkit-transform: scale(2.4);
+                        transform:scale(2.4);
+                        opacity: 0;
+                    }
+                }
+    
+                @keyframes ripple {
+                    0% {
+                        transform: scale(.8);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: scale(2.4);
+                        opacity: 0;
+                    }
+                }
+
                 .chatInfoPic {
-                    width: 38px;
-                    height: 38px;
+                    width: 35px;
+                    height: 35px;
                     border-radius: 50%;
                     background-color: #5d5b8d;
                     border: transparent;
@@ -264,6 +348,8 @@ li {
                 display: flex;
                 gap: 20px;
                 margin-bottom: 20px;
+                margin-left: 15px;
+                margin-right: 15px;
 
                 .messageInfo {
                     display: flex;
@@ -286,8 +372,8 @@ li {
 
                     .mexBox {
                         background-color: white;
-                        padding: 10px 20px;
                         border-radius: 0px 10px 10px 10px;
+                        padding: 10px 20px;
                         max-width: 500px;
                         word-wrap: break-word;
                     }
@@ -298,12 +384,12 @@ li {
                 &.owner {
                     flex-direction: row-reverse;
                     .messageContent {
-                      align-items: flex-end;
-                      .mexBox {
-                        background-color: #8da4f1;
-                        color: white;
-                        border-radius: 10px 0px 10px 10px;
-                      }
+                        align-items: flex-end;
+                        .mexBox {
+                            background-color: #8da4f1;
+                            color: white;
+                            border-radius: 10px 0px 10px 10px;
+                        }
                     }
                 }
             }
@@ -324,6 +410,7 @@ li {
                 padding: 10px;
                 color: lightgray;
             }
+
             .send {
                 display: flex;
                 gap: 10px;

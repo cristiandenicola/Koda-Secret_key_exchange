@@ -7,7 +7,7 @@ import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../Context/ChatContext";
 
-const Chat = () => {
+const ChatGuest = () => {
     const { data } = useContext(ChatContext);
 
     return (
@@ -15,7 +15,6 @@ const Chat = () => {
             <div className="chatInfo">
                 <div className="divInfo">
                     {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" />}
-                    {data.user.publicKey !== "" && <div className="divOnline"></div>}
                     <span className="chatInfoName">{data.user?.displayName}</span>
                 </div>
                 <div className="chatIcons">
@@ -36,4 +35,4 @@ const Chat = () => {
     );
 };
 
-export default Chat;
+export default ChatGuest;

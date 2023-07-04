@@ -4,6 +4,8 @@ import {
 } from 'mdb-react-ui-kit';
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import Chat from "./ChatGuest";
+import Sidebar from "./SidebarGuest";
 
 const AccountGuest = () => {
 
@@ -18,9 +20,9 @@ const AccountGuest = () => {
     }
 
     return (
-        <div className="hero">
-            <h1>GUEST ACCOUNT</h1>
-            <MDBBtn rounded type="button" className="btn btn-primary btn-lg" color='light' rippleColor='dark' onClick={() => Logout()}>Log out</MDBBtn>
+        <div className="home">
+            <Sidebar/>
+            <Chat/>
         </div>
     );
 }
