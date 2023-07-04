@@ -10,12 +10,20 @@ import { ChatContext } from "../Context/ChatContext";
 const Chat = () => {
     const { data } = useContext(ChatContext);
 
+    function showStatus() {
+        if(data.selectedUser) {
+            return (
+                <div className="divOnline"></div>
+            )
+        } else {}
+    }
+
     return (
         <div className="chat">
             <div className="chatInfo">
                 <div className="divInfo">
                     {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" />}
-                    {data.user.publicKey !== "" && <div className="divOnline"></div>}
+                    {showStatus()}
                     <span className="chatInfoName">{data.user?.displayName}</span>
                 </div>
                 <div className="chatIcons">

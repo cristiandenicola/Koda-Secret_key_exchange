@@ -189,6 +189,7 @@ li {
             border-radius: 10px;
             display: flex;
             align-items: center;
+            margin-bottom: 10px;
             gap: 10px;
             color: white;
             cursor: pointer;  
