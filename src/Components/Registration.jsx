@@ -88,6 +88,7 @@ const Registration = () => {
                             email,
                             photoURL: getDownloadURL,
                             publicKey: "",
+                            isOnline: true,
                         });
                         //create empty chats on firestone
                         await setDoc(doc(db, "userChats", res.user.uid), {});

@@ -102,8 +102,7 @@ const Search = () => {
             {user && ( 
                 <div className="userChat" onClick={handleSelect} style={{position:'relative'}}>
                     <img className="userChatImg" src={user.photoURL} alt=""/>
-                    {user.publicKey !== "" && <div className="divOnline"></div>}
-                    {user.publicKey === "" && <div className="divOffline" style={{backgroundColor:'gray'}}></div>}
+                    {user.isOnline ? <div className="divOnline"></div> : <div className="divOffline" style={{backgroundColor:'gray'}}></div>}
                     <div className="userChatInfo">
                         <span className="spanName">{user.displayName}</span>
                     </div>

@@ -20,6 +20,16 @@ const NavbarAccount = () => {
         }
     }
 
+    async function updateStatus(user) {
+        try {
+            updateDoc(doc(db, "users", user.uid), { 
+                isOnline: false,
+            });
+        } catch (error) {
+            console.error(error);
+        };
+    }
+
     async function deleteMessages(uid) {
         const q = query(
             collection(db, "chats"),
@@ -46,6 +56,7 @@ const NavbarAccount = () => {
     const Logout = async ()  => {
         try {
             await resetPublicKey(currentUser);
+            await updateStatus(currentUser);
             await deleteMessages(currentUser.uid);
 
             localStorage.clear();

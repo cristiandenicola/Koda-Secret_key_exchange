@@ -65,6 +65,16 @@ const Login = () => {
             console.error(error);
         };
     };
+    
+    const updateStatus = (user) => {
+        try {
+            updateDoc(doc(db, "users", user.uid), { 
+                isOnline: true,
+            });
+        } catch (error) {
+            console.error(error);
+        };
+    }
 
     const handleGuestSignIn = async (e) => {
         try {
@@ -107,7 +117,8 @@ const Login = () => {
 
             localStorage.setItem('secretKey', SECRET_KEY); 
 
-            saveUserPK(PUBLIC_KEY, auth.currentUser)
+            saveUserPK(PUBLIC_KEY, auth.currentUser);
+            updateStatus(auth.currentUser);
         } catch (error) {
             setError(true);
         }
