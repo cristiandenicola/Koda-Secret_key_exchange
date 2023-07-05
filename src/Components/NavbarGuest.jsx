@@ -10,8 +10,60 @@ import { doc, updateDoc, setDoc, deleteDoc, query, where, collection, getDocs } 
 const NavbarGuest = () => {
     const { currentUser } = useContext(AuthContext);
 
+    async function deleteGuestData(uid) {
+        const q = query(
+            collection(db, "users"),
+        );
+
+        try {
+            await deleteDoc(doc(db, "userChats", uid));
+
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(async (doc) => {
+                const CombinedUid = doc.data().users;
+                if(CombinedUid?.includes(uid)) {
+                    const documentRef = doc.ref;
+                    await deleteDoc(documentRef);
+                    console.log("Documento eliminato:", doc.id);
+                }
+            });
+
+            await deleteDoc(doc(db, "users", uid));
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
+    async function deleteMessages(uid) {
+        const q = query(
+            collection(db, "chats"),
+        );
+
+        try {
+            await setDoc(doc(db, "userChats", uid), {});
+            await deleteDoc(doc(db, "userChats", uid));
+
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(async (doc) => {
+                const CombinedUid = doc.data().users;
+                if(CombinedUid?.includes(uid)) {
+                    const documentRef = doc.ref;
+                    await deleteDoc(documentRef);
+                    console.log("Documento eliminato:", doc.id);
+                }
+            });
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const Logout = async ()  => {
         try {
+            //await resetPublicKey(currentUser);
+            await deleteGuestData(currentUser.uid);
+            //auth.currentUser.delete();
+
+            localStorage.clear();
             window.location.reload(true);
             return signOut(auth)
             
@@ -21,7 +73,7 @@ const NavbarGuest = () => {
     }
 
     return (
-        <div className='navbar'>
+        <div className='navbar' style={{backgroundColor:'#474242'}}>
             <div className="user">
                 <img className="profilePic" src="https://3.bp.blogspot.com/-UI5bnoLTRAE/VuU18_s6bRI/AAAAAAAADGA/uafLtb4ICCEK8iO3NOh1C_Clh86GajUkw/s320/guest.png" alt="" style={{marginTop:'3px'}}/>
                 <span style={{marginTop:'2px'}}>Guest account</span>

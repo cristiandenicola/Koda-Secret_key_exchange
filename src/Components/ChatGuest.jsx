@@ -3,8 +3,8 @@ import {
     MDBIcon,
     MDBBtn
 } from 'mdb-react-ui-kit';
-import Messages from "./Messages";
-import Input from "./Input";
+import Messages from "./MessagesGuest";
+import Input from "./InputGuest";
 import { ChatContext } from "../Context/ChatContext";
 
 const ChatGuest = () => {
@@ -12,9 +12,9 @@ const ChatGuest = () => {
 
     return (
         <div className="chat">
-            <div className="chatInfo">
+            <div className="chatInfo" style={{backgroundColor:'#8c7d7d'}}>
                 <div className="divInfo">
-                    {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" />}
+                    {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" style={{backgroundColor:'#8c7d7d'}}/>}
                     <span className="chatInfoName">{data.user?.displayName}</span>
                 </div>
                 <div className="chatIcons">

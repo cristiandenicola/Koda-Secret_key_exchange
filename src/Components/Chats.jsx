@@ -70,7 +70,13 @@ const Chats = () => {
                 <div className="userChatInfo">
                 <span className="spanName">{chat[1].userInfo.displayName}</span>
                 <p className="pMessage" style={{marginBottom:'0px'}}>
-                  {decryptMessage(chat[1].lastMessage?.text, sessionKey)}
+                  {chat[1].lastMessage?.text == null 
+                    ? "Start the conversation" 
+                    : (() => {
+                      const decryptedText = decryptMessage(chat[1].lastMessage?.text, sessionKey);
+                      return decryptedText.includes('/hide') ? "Hide message received" : decryptedText;
+                    }) ()
+                  }
                 </p>
               </div>
             </div>

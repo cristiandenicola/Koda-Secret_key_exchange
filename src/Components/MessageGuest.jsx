@@ -4,7 +4,7 @@ import { ChatContext } from "../Context/ChatContext";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 
-const Message = ({ message }) => {
+const MessageGuest = ({ message }) => {
 
     const { currentUser } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
@@ -21,14 +21,14 @@ const Message = ({ message }) => {
     }, [message]);
 
     return (
-        <div ref={ref} className={`message ${message.senderId === currentUser.uid && "owner"}`}>
+        <div ref={ref} className={`message ${message.senderId === currentUser.uid && "guest"}`}>
             <div className="messageInfo">
                 <img 
                     className="mexChatImg"
-                    style={{backgroundColor:'transparent'}} 
+                    style={{backgroundColor:'transparent'}}
                     src={
                         message.senderId === currentUser.uid
-                            ? currentUser.photoURL
+                            ? "https://3.bp.blogspot.com/-UI5bnoLTRAE/VuU18_s6bRI/AAAAAAAADGA/uafLtb4ICCEK8iO3NOh1C_Clh86GajUkw/s320/guest.png"
                             : data.user.photoURL
                     } 
                     alt=""
@@ -61,4 +61,4 @@ const Message = ({ message }) => {
     );
 };
 
-export default Message;
+export default MessageGuest;

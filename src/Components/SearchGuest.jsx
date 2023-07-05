@@ -17,7 +17,7 @@ import { db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
 
 
-const Search = () => {
+const SearchGuest = () => {
     const [username, setUsername] = useState("");
     const [user, setUser] = useState(null);
     const [error, setError] = useState(false);
@@ -77,8 +77,8 @@ const Search = () => {
                     await updateDoc(doc(db, "userChats", user.uid), {
                         [combinedId + ".userInfo"]: {
                             uid: currentUser.uid,
-                            displayName: currentUser.displayName,
-                            photoURL: currentUser.photoURL,
+                            displayName: "Guest",
+                            photoURL: "https://3.bp.blogspot.com/-UI5bnoLTRAE/VuU18_s6bRI/AAAAAAAADGA/uafLtb4ICCEK8iO3NOh1C_Clh86GajUkw/s320/guest.png",
                         },
                         [combinedId + ".date"]: serverTimestamp(),
                     });
@@ -100,7 +100,7 @@ const Search = () => {
             </div>
             {error && <span style={{display:'flex', alignItems:'center', justifyContent:'center', color:'#ddddf7', fontSize:'11px'}}>User not found!</span>}
             {user && ( 
-                <div className="userChat" onClick={handleSelect} style={{position:'relative'}}>
+                <div className="userChat" onClick={handleSelect} style={{position:'relative', backgroundColor:'#474242'}}>
                     <img className="userChatImg" src={user.photoURL} alt=""/>
                     {user.publicKey !== "" && <div className="divOnline"></div>}
                     {user.publicKey === "" && <div className="divOffline" style={{backgroundColor:'gray'}}></div>}
@@ -113,4 +113,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default SearchGuest;

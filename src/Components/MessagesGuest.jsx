@@ -4,8 +4,9 @@ import { ChatContext } from "../Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js";
+import MessageGuest from "./MessageGuest";
 
-const Messages = () => {
+const MessagesGuest = () => {
 
     const [messages, setMessages] = useState([]);
     const [decryptedMessages, setDecryptedMessages] = useState([]);
@@ -56,7 +57,7 @@ const Messages = () => {
 
 
     return (
-        <div className="messages">
+        <div className="messages" style={{backgroundColor:'#bfb2b2'}}>
             {!data.selectedUser ? (
                 <div style={{alignItems:'center', justifyContent:'center', display: 'flex', flexDirection:'column', padding:'10px'}}>
                     <iframe src="https://embed.lottiefiles.com/animation/91574" style={{width:'400px', height:'400px'}}></iframe>
@@ -66,10 +67,10 @@ const Messages = () => {
                 <p></p>
             )}
             {messages.map((m, index) => (
-                <Message message={m} key={index} />
+                <MessageGuest message={m} key={index} />
             ))}
         </div>
     );
 };
 
-export default Messages;
+export default MessagesGuest;

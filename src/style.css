@@ -1,18 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+@keyframes ripple {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+}
+
 * {
     scrollbar-width: none;
     -ms-overflow-style: none;
     ::-webkit-scrollbar-track {
-      -webkit-box-shadow: none !important;
-      background-color: transparent;
+    -webkit-box-shadow: none !important;
+    background-color: transparent;
     }
     ::-webkit-scrollbar {
-      width: 3px;
-      background-color: transparent;
+    width: 3px;
+    background-color: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background-color: transparent;
+    background-color: transparent;
     }
 }
 
@@ -30,7 +45,7 @@ li {
     display: flex;
     justify-content:space-between;
     align-items: center;
-    height: 10vh;
+    height: 9vh;
     box-shadow: rgba(50, 50, 93, 0.23) 0px 30px 30px -20px;
 }
 
@@ -83,10 +98,10 @@ li {
 
 .divider:after,
 .divider:before {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #eee;
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
 }
 
 .labelAvatar {
@@ -100,7 +115,7 @@ li {
 
 .home {
     background-color: #a7bcff;
-    height: 90vh;
+    height: 91vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -208,31 +223,19 @@ li {
                 border: 1px solid currentColor;
                 margin-top: 20px;
                 margin-left: -18px;
-                -webkit-animation: ripple 1s infinite alternate;
-                animation: ripple 1s infinite alternate;
-            }
-            @-webkit-keyframes ripple {
-                0% {
-                    -webkit-transform: scale(.8);
-                    transform: scale(0.8);
-                    opacity: 1;
-                }
-                100% {
-                    -webkit-transform: scale(2.4);
-                    transform:scale(2.4);
-                    opacity: 0;
-                }
+                animation: ripple 1.2s infinite ease-in-out;
             }
 
-            @keyframes ripple {
-                0% {
-                    transform: scale(.8);
-                    opacity: 1;
-                }
-                100% {
-                    transform: scale(2.4);
-                    opacity: 0;
-                }
+            .divOffline {
+                width:10px;
+                height:10px; 
+                border-radius:50px; 
+                background-color:gray;
+                position:relative;
+                left: 0;
+                border: 1px solid currentColor;
+                margin-top: 20px;
+                margin-left: -18px;
             }
                     
             .userChatImg {
@@ -388,6 +391,17 @@ li {
                         align-items: flex-end;
                         .mexBox {
                             background-color: #8da4f1;
+                            color: white;
+                            border-radius: 10px 0px 10px 10px;
+                        }
+                    }
+                }
+                &.guest {
+                    flex-direction: row-reverse;
+                    .messageContent {
+                        align-items: flex-end;
+                        .mexBox {
+                            background-color: #756868;
                             color: white;
                             border-radius: 10px 0px 10px 10px;
                         }

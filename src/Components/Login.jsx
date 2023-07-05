@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Navbar.css";
 import {
     MDBContainer,
     MDBCol,
@@ -69,8 +68,25 @@ const Login = () => {
 
     const handleGuestSignIn = async (e) => {
         try {
-            await signInAnonymously(auth)
+            await signInAnonymously(auth);
+            await generateUserChats(auth.currentUser);
+
+            await setDoc(doc(db, "users", auth.currentUser.uid), {
+                uid: auth.currentUser.uid,
+                displayName: "Guest",
+                photoURL: "https://3.bp.blogspot.com/-UI5bnoLTRAE/VuU18_s6bRI/AAAAAAAADGA/uafLtb4ICCEK8iO3NOh1C_Clh86GajUkw/s320/guest.png",
+                publicKey: "",
+            });
+            //create empty chats on firestone
+            await setDoc(doc(db, "userChats", auth.currentUser.uid), {});
             navigate('/guest');
+
+            const keys = generateUserKeys();
+            PUBLIC_KEY = keys.PUBLIC_KEY;
+            SECRET_KEY = keys.SECRET_KEY;
+
+            localStorage.setItem('secretKey', SECRET_KEY);
+            saveUserPK(PUBLIC_KEY, auth.currentUser)
         } catch (error) {
             console.error(error)
         }
@@ -116,15 +132,18 @@ const Login = () => {
                                     <p>No account?<Link to="/Registration">  Create one</Link></p>
                                 </div>
 
-                                <MDBBtn className="mb-4 w-100" size="lg">Sign in</MDBBtn>
+                                <MDBBtn className="mb-4 w-100" size="lg">
+                                    <MDBIcon icon='sign-in-alt ' className="mx-2"/>
+                                    Sign in
+                                </MDBBtn>
                                 {error && <span>You have entered an invalid email or password</span>}
 
                                 <div className="divider flex align-items-center my-4">
-                                    <p className="text-center fw-bold mx-3 mb-0">OR</p>
+                                    <p className="text-center fw-bold mx-3 mb-0" style={{marginTop:'-20px', paddingBottom:'20px'}}>OR</p>
                                 </div>
                             </form>
-                            <MDBBtn className="ms-2 w-100" size="lg" onClick={handleGuestSignIn} style={{backgroundColor: '#dd4b39'}}>
-                                <MDBIcon icon='users ' className="mx-2"/>
+                            <MDBBtn className="ms-2 w-100" size="lg" onClick={handleGuestSignIn} style={{backgroundColor: '#8c7d7d'}}>
+                                <MDBIcon icon='user-alt ' className="mx-2"/>
                                     Continue as a guest
                             </MDBBtn>
                         </MDBCardBody>

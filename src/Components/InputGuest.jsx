@@ -12,9 +12,10 @@ import { v4 as uuid } from "uuid";
 import CryptoJS from "crypto-js";
 
 
-const Input = () => {
+const InputGuest = () => {
 
     const [text, setText] = useState("");
+    //const [encryptedMessage, setEncryptedMessage] = useState ("");
 
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
@@ -83,8 +84,8 @@ const Input = () => {
     };
 
     return (
-        <div className="input">
-            <div className="inputType">
+        <div className="input" style={{backgroundColor:'#474242'}}>
+            <div className="inputType" style={{backgroundColor:'#474242'}}>
                 <MDBInput className="inputText" label='Type something...' id='formName' type='text' size="sm" onKeyDown={handleKey} value={text} onChange={(e) => setText(e.target.value)} style={{backgroundColor:'white'}}/>
                 <div className="send">
                     <MDBBtn rounded size="sm" color='light' rippleColor='dark' onClick={handleSend}>
@@ -96,6 +97,6 @@ const Input = () => {
     );
 };
 
-export default Input;
+export default InputGuest;
 
 

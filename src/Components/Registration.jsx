@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Navbar.css";
 import {
     MDBContainer,
     MDBCol,
@@ -143,7 +142,10 @@ const Registration = () => {
                                 </label>
 
                                 <p style={{marginTop:"30px"}}>Already have an account?<Link to="/Login">  Log in</Link></p>
-                                <MDBBtn disabled={loading} className="mb-4 w-100" size="lg">Sign up</MDBBtn>
+                                <MDBBtn disabled={loading} className="mb-4 w-100" size="lg">
+                                    <MDBIcon icon='user-plus ' className="mx-2"/>
+                                    Sign up
+                                </MDBBtn>
                                 {loading && "Uploading and compressing the image please wait..."}
                                 {error && <span>Something went wrong</span>}
                             </form>
