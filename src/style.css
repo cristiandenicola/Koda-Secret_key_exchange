@@ -6,7 +6,7 @@
         opacity: 1;
     }
     50% {
-        transform: scale(1.2);
+        transform: scale(1.0);
         opacity: 1;
     }
     100% {
@@ -124,19 +124,9 @@ li {
     overflow: hidden;
     border: transparent;
     
-
-    .container {
-        border: 1px solid white;
-        border-radius: 10px;
-        width: 100%;
-        height: 90%;
-        display: flex;
-        overflow: hidden;
-        border: transparent;
-    }
     .sidebar {
         flex: 1;
-        background-color: #3e3c61;
+        background-color: #3b3c61;
         position: relative;
         max-width: 400px;
         height: 100%;
