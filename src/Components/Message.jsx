@@ -43,7 +43,7 @@ const Message = ({ message }) => {
                     <div>
                         <input className="mexBox" 
                             type={showPassword ? 'text' : 'password'} 
-                            style={{border:'none', outline:'none'}}
+                            style={{border:'none', outline:'none', padding:'10px'}}
                             value={message.text.replace('/hide', '')} 
                             readOnly
                         />

@@ -65,7 +65,8 @@ export const AuthContextProvider = ({ children }) => {
                 localStorage.clear();
 
                 window.location.reload(true);
-                return signOut(auth)
+                removeEventListeners();
+                return signOut(auth);
             } catch (error) {
                 console.error(error);
             }
