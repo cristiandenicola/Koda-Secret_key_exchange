@@ -126,7 +126,7 @@ li {
     
     .sidebar {
         flex: 1;
-        background-color: #3b3c61;
+        background-color: #4A4E69;
         position: relative;
         max-width: 400px;
         height: 100%;
@@ -135,19 +135,19 @@ li {
         .navbar {
             display: flex;
             align-items: center;
-            background-color: #2f2d52;
+            background-color: #31354C;
             height: 50px;
             padding: 10px;
             border-radius: 10px;
             justify-content: space-between;
-            color: #ddddf7;
+            color: #CCD7EF;
     
             .user {
                 display: flex;
                 gap: 10px;
     
                 .profilePic {
-                    background-color: #ddddf7;
+                    background-color: #363649;
                     height: 24px;
                     width: 24px;
                     border-radius: 50%;
@@ -167,7 +167,7 @@ li {
                     height: 70px;
         
                     .chats {
-                        color: #ddddf7;
+                        color: #CCD7EF;
                         font-size: 40px;
                         font-weight: 700;
                     }
@@ -181,16 +181,9 @@ li {
                 }
             }
         }
-        .roomsBtn{
-            margin-top: 15px;
-            display: flex;
-            padding: 20px;
-            align-items: center;
-            justify-content: space-between;
-        }
         .userChat{
             padding: 10px;
-            background-color: #2e2b52;
+            background-color: #31354C;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -200,7 +193,7 @@ li {
             cursor: pointer;  
             
             &:hover {
-                background-color: #1a1836;
+                background-color: #222436;
             }
 
             .divOnline {
@@ -259,12 +252,12 @@ li {
 
         .chatInfo {
             height: 50px;
-            background-color: #5d5b8d;
+            background-color: #787D99;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px;
-            color: #ddddf7;
+            color: #31354C;
             margin-right: -12px;
 
             .divInfo {
@@ -314,7 +307,7 @@ li {
                     width: 35px;
                     height: 35px;
                     border-radius: 50%;
-                    background-color: #5d5b8d;
+                    background-color: #787D99;
                     border: transparent;
                 }
     
@@ -332,7 +325,7 @@ li {
         }
 
         .messages {
-            background-color: #ddddf7;
+            background-color: #F2F4FF;
             padding: 10px;
             margin-right: -12px;
             height: calc(100% - 100px);
@@ -365,7 +358,7 @@ li {
                     gap: 10px;
 
                     .mexBox {
-                        background-color: white;
+                        background-color: #D8DAEA;
                         border-radius: 0px 10px 10px 10px;
                         padding: 10px 20px;
                         max-width: 500px;
@@ -380,7 +373,7 @@ li {
                     .messageContent {
                         align-items: flex-end;
                         .mexBox {
-                            background-color: #8da4f1;
+                            background-color: #535E9A;
                             color: white;
                             border-radius: 10px 0px 10px 10px;
                         }
@@ -408,7 +401,7 @@ li {
 
             .inputType {
                 max-height: 50px;
-                background-color: #2f2d52;
+                background-color: #31354C;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
