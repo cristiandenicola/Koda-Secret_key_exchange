@@ -10,9 +10,6 @@ const SidebarGuest = () => {
         <div className="sidebar" style={{backgroundColor:'#5c5555'}}>
             <NavbarAccount/>
             <Search/>
-            <div className="roomsBtn" style={{justifyContent:'center'}}>
-                <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' style={{}}>Join a room</MDBBtn>
-            </div>
             <Chats/>
         </div>
     );

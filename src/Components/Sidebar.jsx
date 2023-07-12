@@ -10,10 +10,6 @@ const Sidebar = () => {
         <div className="sidebar">
             <NavbarAccount/>
             <Search/>
-            <div className="roomsBtn">
-                <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' >Create a room</MDBBtn>
-                <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' >Join a room</MDBBtn>
-            </div>
             <Chats/>
         </div>
     );
