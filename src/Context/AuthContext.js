@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { doc, updateDoc, setDoc, deleteDoc, query, where, collection, getDocs } from "firebase/firestore";
+import { doc, updateDoc, setDoc, deleteDoc, query, collection, getDocs } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -9,6 +9,9 @@ export const AuthContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({});
     
     useEffect(() => {
+        const sessionTimeout = 2 * 60 * 60 * 1000;
+        let logoutTimer;
+
         const unsub = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
         });
@@ -72,9 +75,6 @@ export const AuthContextProvider = ({ children }) => {
             }
         };
         
-        const sessionTimeout = 2 * 60 * 60 * 1000; //2h timeout
-        let logoutTimer;
-
         const resetLogoutTimer = () => {
             clearTimeout(logoutTimer);
             logoutTimer = setTimeout(logout, sessionTimeout);

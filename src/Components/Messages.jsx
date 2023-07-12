@@ -8,7 +8,6 @@ import CryptoJS from "crypto-js";
 const Messages = () => {
 
     const [messages, setMessages] = useState([]);
-    const [decryptedMessages, setDecryptedMessages] = useState([]);
     const { data } = useContext(ChatContext);
     let SESSION_KEY;
 
@@ -27,9 +26,9 @@ const Messages = () => {
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
             if(doc.exists()) {
-                const docData = doc.data(); //OK
+                const docData = doc.data();
                 if(docData && docData.messages) {
-                    const encryptedMessages = docData.messages; //OK                    
+                    const encryptedMessages = docData.messages;                 
                     setMessages(encryptedMessages);
 
                     if(data.sessionKey) {

@@ -1,21 +1,19 @@
 import React, { useContext } from "react";
-import {
-    MDBIcon,
-    MDBBtn
-} from 'mdb-react-ui-kit';
+import { MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../Context/ChatContext";
 
 const Chat = () => {
     const { data } = useContext(ChatContext);
+    const { photoURL, displayName } = data.user || {};
 
     return (
         <div className="chat">
             <div className="chatInfo">
                 <div className="divInfo">
-                    {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" />}
-                    <span className="chatInfoName">{data.user?.displayName}</span>
+                    {photoURL && <img className="chatInfoPic" src={photoURL} alt="" />}
+                    {displayName && <span className="chatInfoName">{displayName}</span>}
                 </div>
                 <div className="chatIcons">
                     <MDBBtn rounded size="sm" color='light' rippleColor='dark'>

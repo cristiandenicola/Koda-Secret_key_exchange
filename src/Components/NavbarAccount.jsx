@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import {
-    MDBBtn
-} from 'mdb-react-ui-kit';
+import { MDBBtn } from 'mdb-react-ui-kit';
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
-import { doc, updateDoc, setDoc, deleteDoc, query, where, collection, getDocs } from "firebase/firestore";
+import { doc, updateDoc, setDoc, deleteDoc, query, collection, getDocs } from "firebase/firestore";
 
 const NavbarAccount = () => {
     const { currentUser } = useContext(AuthContext);
@@ -18,7 +16,7 @@ const NavbarAccount = () => {
         } catch(error) {
             console.error(error)
         }
-    }
+    };
 
     async function updateStatus(user) {
         try {
@@ -28,7 +26,7 @@ const NavbarAccount = () => {
         } catch (error) {
             console.error(error);
         };
-    }
+    };
 
     async function deleteMessages(uid) {
         const q = query(
@@ -51,7 +49,7 @@ const NavbarAccount = () => {
         } catch (error) {
             console.error(error)
         }
-    }
+    };
 
     const Logout = async ()  => {
         try {
@@ -65,17 +63,26 @@ const NavbarAccount = () => {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     return (
         <div className='navbar'>
             <div className="user">
                 <img className="profilePic" src={currentUser.photoURL} alt="" style={{marginTop:'3px'}}/>
                 <span style={{marginTop:'2px'}}>{currentUser.displayName}</span>
-                <MDBBtn rounded size="sm" color='transparent' onClick={() => Logout()} style={{position:'absolute', right:'5px', background:'transparent', color:'#ddddf7'}}>Log out</MDBBtn>
+                <MDBBtn rounded size="sm" color='transparent' onClick={() => Logout()} 
+                    style={{
+                        position:'absolute', 
+                        right:'5px', 
+                        background:'transparent', 
+                        color:'#ddddf7'
+                    }}
+                >
+                    Log out
+                </MDBBtn>
             </div>
         </div>
-    )
+    );
 }
 
 export default NavbarAccount;

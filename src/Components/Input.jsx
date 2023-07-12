@@ -1,9 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-    MDBInput,
-    MDBBtn,
-    MDBIcon
-} from 'mdb-react-ui-kit';
+import { MDBInput, MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
 import { AuthContext } from "../Context/AuthContext";
 import { ChatContext } from "../Context/ChatContext";
 import { Timestamp, serverTimestamp, arrayUnion, doc, updateDoc } from "firebase/firestore";
@@ -15,7 +11,6 @@ import CryptoJS from "crypto-js";
 const Input = () => {
 
     const [text, setText] = useState("");
-
     const { currentUser } = useContext(AuthContext);
     const { data } = useContext(ChatContext);
     let SESSION_KEY;
@@ -46,31 +41,35 @@ const Input = () => {
                             if(SESSION_KEY === undefined) {
                                 alert("l'utente al momento è offline, non è possibile comunicare");
                             } else {
-                                let encryptedMessage = encryptMessage(text, SESSION_KEY);
-                                updateDoc(doc(db, "chats", data.chatId), {
-                                    messages: arrayUnion({
-                                        id: uuid(),
-                                        text: encryptedMessage,
-                                        senderId: currentUser.uid,
-                                        date: Timestamp.now(),
-                                    }),
-                                });
-        
-                                updateDoc(doc(db, "userChats", currentUser.uid), {
-                                    [data.chatId + ".lastMessage"]: {
-                                        text: encryptedMessage,
-                                    },
-                                    [data.chatId + ".date"]: serverTimestamp(),
-                                });
-                        
-                                updateDoc(doc(db, "userChats", data.user.uid), {
-                                    [data.chatId + ".lastMessage"]: {
-                                        text: encryptedMessage,
-                                    },
-                                    [data.chatId + ".date"]: serverTimestamp(),
-                                });
+                                try {
+                                    let encryptedMessage = encryptMessage(text, SESSION_KEY);
+                                    updateDoc(doc(db, "chats", data.chatId), {
+                                        messages: arrayUnion({
+                                            id: uuid(),
+                                            text: encryptedMessage,
+                                            senderId: currentUser.uid,
+                                            date: Timestamp.now(),
+                                        }),
+                                    });
+            
+                                    updateDoc(doc(db, "userChats", currentUser.uid), {
+                                        [data.chatId + ".lastMessage"]: {
+                                            text: encryptedMessage,
+                                        },
+                                        [data.chatId + ".date"]: serverTimestamp(),
+                                    });
                             
-                                setText("");
+                                    updateDoc(doc(db, "userChats", data.user.uid), {
+                                        [data.chatId + ".lastMessage"]: {
+                                            text: encryptedMessage,
+                                        },
+                                        [data.chatId + ".date"]: serverTimestamp(),
+                                    });
+                                
+                                    setText("");
+                                } catch (error) {
+                                    console.log(error)
+                                }
                             }
                         }
                     )
@@ -86,7 +85,16 @@ const Input = () => {
     return (
         <div className="input">
             <div className="inputType">
-                <MDBInput className="inputText" label='Type something...' id='formName' type='text' size="sm" onKeyDown={handleKey} value={text} onChange={(e) => setText(e.target.value)} style={{backgroundColor:'white'}}/>
+                <MDBInput 
+                    className="inputText" 
+                    label='Type something...' 
+                    id='formName' 
+                    type='text' 
+                    size="sm" 
+                    onKeyDown={handleKey} 
+                    value={text} onChange={(e) => setText(e.target.value)} 
+                    style={{backgroundColor:'white'}}
+                />
                 <div className="send">
                     <MDBBtn rounded size="sm" color='light' rippleColor='dark' onClick={handleSend}>
                         <MDBIcon fas icon='paper-plane' />

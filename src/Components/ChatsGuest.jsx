@@ -25,17 +25,13 @@ const ChatsGuest = () => {
     };
     
     useEffect(() => {
-        const getChats = () => {
-            const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-                setChats(doc.data());
-            });
-            
-            return () => {
-                unsub();
-            };
-        };
+        if (!currentUser.uid) return;
         
-        currentUser.uid && getChats();
+        const unsubscribe = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+            setChats(doc.data());
+        });
+        
+        return unsubscribe;
     }, [currentUser.uid]);
     
     useEffect(() => {
@@ -45,9 +41,7 @@ const ChatsGuest = () => {
                     setSessionKey(value);
                 });
             }
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }, [data.sessionKey]);
     
     const handleSelect = (u) => {
@@ -61,38 +55,51 @@ const ChatsGuest = () => {
                 .sort((a,b) => b[1].date - a[1].date)
                 .map((chat) => (
                     <div
-                    className="userChat"
-                    key={chat[0]}
-                    onClick={() => handleSelect(chat[1].userInfo)}
-                    style={{backgroundColor:'#474242'}}
+                        className="userChat"
+                        key={chat[0]}
+                        onClick={() => handleSelect(chat[1].userInfo)}
+                        style={{backgroundColor:'#474242'}}
                     >
                         <img className="userChatImg" src={chat[1].userInfo.photoURL} alt="" />
                         {data.user.publicKey !== "" && <div className="divOnline"></div>}
                         <div className="userChatInfo">
                             <span className="spanName">{chat[1].userInfo.displayName}</span>
                             <p className="pMessage" style={{marginBottom:'0px'}}>
-                            {chat[1].lastMessage?.text == null 
-                                ? "Start the conversation" 
-                                : (() => {
-                                    const decryptedText = decryptMessage(chat[1].lastMessage?.text, sessionKey);
-                                    return decryptedText.includes('/hide') ? "Hide message received" : decryptedText;
-                                }) ()
-                            }
+                                {chat[1].lastMessage?.text == null 
+                                    ? "Start the conversation" 
+                                    : (() => {
+                                        const decryptedText = decryptMessage(chat[1].lastMessage?.text, sessionKey);
+                                        return decryptedText.includes('/hide') ? "Hide message received" : decryptedText;
+                                    }) ()
+                                }
                             </p>
                         </div>
                     </div>
-                    )
-                    );
-                };
-            } catch (error) {}
-        }
+                ));
+            };
+        } catch (error) { return null; }
+    };
         
-        return (
-            <div className="chats">
-            {!data.selectedUser ?<p style={{display:'flex', alignItems:'center', justifyContent:'center', color:'#ddddf7', fontSize:'11px', marginTop:'20px'}}>Your chats will be displayed here</p> : <p></p>}
+    return (
+        <div className="chats">
+            {!data.selectedUser ?
+                <p 
+                    style={{
+                        display:'flex', 
+                        alignItems:'center', 
+                        justifyContent:'center', 
+                        color:'#ddddf7', 
+                        fontSize:'11px', 
+                        marginTop:'20px'
+                    }}
+                >
+                    Your chats will be displayed here
+                </p> 
+                : <p></p>
+            }
             {renderChats(chats)}
-            </div>
-            );
-        };
+        </div>
+    );
+};
         
-        export default ChatsGuest;
+export default ChatsGuest;

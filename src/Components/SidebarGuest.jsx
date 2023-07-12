@@ -2,9 +2,7 @@ import React from "react";
 import NavbarAccount from "./NavbarGuest";
 import Search from "./SearchGuest";
 import Chats from "./ChatsGuest";
-import {
-    MDBBtn
-} from 'mdb-react-ui-kit';
+import { MDBBtn } from 'mdb-react-ui-kit';
 import '../style.css'
 
 const SidebarGuest = () => {
@@ -13,7 +11,7 @@ const SidebarGuest = () => {
             <NavbarAccount/>
             <Search/>
             <div className="roomsBtn" style={{justifyContent:'center'}}>
-            <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' style={{}}>Join a room</MDBBtn>
+                <MDBBtn rounded type="button" className="btn btn-primary btn-sm" color='light' rippleColor='dark' style={{}}>Join a room</MDBBtn>
             </div>
             <Chats/>
         </div>

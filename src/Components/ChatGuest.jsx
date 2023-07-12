@@ -9,22 +9,14 @@ import { ChatContext } from "../Context/ChatContext";
 
 const ChatGuest = () => {
     const { data } = useContext(ChatContext);
-
-    function showStatus() {
-        if(data.selectedUser) {
-            return (
-                <div className="divOnline"></div>
-            )
-        } else {}
-    }
+    const { photoURL, displayName } = data.user || {};
 
     return (
         <div className="chat">
             <div className="chatInfo" style={{backgroundColor:'#8c7d7d'}}>
                 <div className="divInfo">
-                    {data.user?.photoURL && <img className="chatInfoPic" src={data.user.photoURL} alt="" style={{backgroundColor:'#8c7d7d'}}/>}
-                    {showStatus()}
-                    <span className="chatInfoName">{data.user?.displayName}</span>
+                    {photoURL && <img className="chatInfoPic" src={photoURL} alt="" style={{backgroundColor:'#8c7d7d'}}/>}
+                    {displayName && <span className="chatInfoName">{displayName}</span>}
                 </div>
                 <div className="chatIcons">
                     <MDBBtn rounded size="sm" color='light' rippleColor='dark'>

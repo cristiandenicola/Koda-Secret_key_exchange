@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import {
-    MDBBtn
-} from 'mdb-react-ui-kit';
+import { MDBBtn } from 'mdb-react-ui-kit';
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
-import { doc, updateDoc, setDoc, deleteDoc, query, where, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, query, collection, getDocs } from "firebase/firestore";
 
 const NavbarGuest = () => {
     const { currentUser } = useContext(AuthContext);
@@ -17,8 +15,8 @@ const NavbarGuest = () => {
 
         try {
             await deleteDoc(doc(db, "userChats", uid));
-
             const querySnapshot = await getDocs(q);
+
             querySnapshot.forEach(async (doc) => {
                 const CombinedUid = doc.data().users;
                 if(CombinedUid?.includes(uid)) {
@@ -32,7 +30,7 @@ const NavbarGuest = () => {
         } catch(error) {
             console.error(error)
         }
-    }
+    };
 
     async function deleteMessages(uid) {
         const q = query(
@@ -55,13 +53,12 @@ const NavbarGuest = () => {
         } catch (error) {
             console.error(error)
         }
-    }
+    };
 
     const Logout = async ()  => {
         try {
-            //await resetPublicKey(currentUser);
+            await deleteMessages(currentUser.uid);
             await deleteGuestData(currentUser.uid);
-            //auth.currentUser.delete();
 
             localStorage.clear();
             window.location.reload(true);
@@ -70,14 +67,23 @@ const NavbarGuest = () => {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     return (
         <div className='navbar' style={{backgroundColor:'#474242'}}>
             <div className="user">
                 <img className="profilePic" src="https://3.bp.blogspot.com/-UI5bnoLTRAE/VuU18_s6bRI/AAAAAAAADGA/uafLtb4ICCEK8iO3NOh1C_Clh86GajUkw/s320/guest.png" alt="" style={{marginTop:'3px'}}/>
                 <span style={{marginTop:'2px'}}>Guest account</span>
-                <MDBBtn rounded size="sm" color='transparent' onClick={() => Logout()} style={{position:'absolute', right:'5px', background:'transparent', color:'#ddddf7'}}>Log out</MDBBtn>
+                <MDBBtn rounded size="sm" color='transparent' onClick={() => Logout()} 
+                    style={{
+                        position:'absolute', 
+                        right:'5px', 
+                        background:'transparent', 
+                        color:'#ddddf7'
+                    }}
+                >
+                    Log out
+                </MDBBtn>
             </div>
         </div>
     )

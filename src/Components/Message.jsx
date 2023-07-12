@@ -9,7 +9,6 @@ const Message = ({ message }) => {
     const { currentUser } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const { data } = useContext(ChatContext);
-    let date;
     const ref = useRef();
 
     const togglePasswordVisibility = () => {
@@ -34,8 +33,8 @@ const Message = ({ message }) => {
                     alt=""
                 />
                 <span style={{fontSize:'11px', padding:'5px', marginLeft:'3px'}}>
-                {message.date.toDate().getHours().toString().padStart(2, "0")}:
-                {message.date.toDate().getMinutes().toString().padStart(2, "0")}
+                    {message.date.toDate().getHours().toString().padStart(2, "0")}:
+                    {message.date.toDate().getMinutes().toString().padStart(2, "0")}
                 </span>
             </div>
             <div className="messageContent">

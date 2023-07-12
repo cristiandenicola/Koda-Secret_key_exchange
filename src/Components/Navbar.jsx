@@ -18,7 +18,7 @@ const Navbar = () => {
                 <Link to ='/Registration' className="linkStyle"><li>Sign up</li></Link>
             </ul>
         </nav>
-    )
+    );
 }
 
 export default Navbar;

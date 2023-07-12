@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-    MDBInput
-} from 'mdb-react-ui-kit';
+import { MDBInput } from 'mdb-react-ui-kit';
 import {
     collection,
     query,
@@ -21,7 +19,6 @@ const Search = () => {
     const [username, setUsername] = useState("");
     const [user, setUser] = useState(null);
     const [error, setError] = useState(false);
-
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
@@ -37,7 +34,7 @@ const Search = () => {
                     const querySnapshot = await getDocs(q);
                     const foundUsers = querySnapshot.docs.map((doc) => doc.data());
                     setUser(foundUsers.length > 0 ? foundUsers[0] : null);
-                    if(foundUsers.length === 0) {setError(true)}
+                    if(foundUsers.length === 0) { setError(true) }
                 } catch (error) {
                     setError(true);
                 }
@@ -50,7 +47,6 @@ const Search = () => {
         handleSearch();
     }, [username]);
 
-
     const handleSelect = async () => {
         const combinedId =
             currentUser.uid > user.uid
@@ -61,10 +57,9 @@ const Search = () => {
                 alert("utente al momento offline...")
             } else {
                 const res = await getDoc(doc(db, "chats", combinedId));
-    
                 if (!res.exists()) {
                     await setDoc(doc(db, "chats", combinedId), { messages: [], users: combinedId });
-        
+
                     await updateDoc(doc(db, "userChats", currentUser.uid), {
                         [combinedId + ".userInfo"]: {
                             uid: user.uid,
@@ -85,7 +80,6 @@ const Search = () => {
                 }
             }
         } catch (error) {}
-    
         setUser(null);
         setUsername("")
     };
@@ -93,10 +87,16 @@ const Search = () => {
     return (
         <div className="search">
             <div className="searchForm">
-            <div className="myChats">
+                <div className="myChats">
                     <p className="chats">Chat</p>
                 </div>
-                <MDBInput wrapperClass='mb-4' label='Find a user...' value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" style={{color:'black', backgroundColor:'white', marginBottom:'-10px'}}/>
+                <MDBInput wrapperClass='mb-4' label='Find a user...' value={username} onChange={(e) => setUsername(e.target.value)} id='formName' type='text' size="sm" 
+                    style={{
+                        color:'black', 
+                        backgroundColor:'white',  
+                        marginBottom:'-10px'
+                    }}
+                />
             </div>
             {error && <span style={{display:'flex', alignItems:'center', justifyContent:'center', color:'#ddddf7', fontSize:'11px'}}>User not found!</span>}
             {user && ( 

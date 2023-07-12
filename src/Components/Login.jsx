@@ -44,15 +44,9 @@ const Login = () => {
     };
 
     async function generateUserChats(user) {
-        //create empty chats on firestone
         await setDoc(doc(db, "userChats", user.uid), {});
-    }
-    /**
-     * metodo usato per salvare la public key generata nel database
-     * per permettere poi in fase di selezione chat di generare la chiave simmetrica.
-     * @param {*} PUBLIC_KEY public key da salvare
-     * @param {*} user utente legato a tale chiave
-     */
+    };
+
     const saveUserPK = (PUBLIC_KEY, user) => {
         try {
             updateDoc(doc(db, "users", user.uid), { 
@@ -74,6 +68,9 @@ const Login = () => {
     }
 
     const handleGuestSignIn = async (e) => {
+        e.preventDefault();
+        setError('');
+
         try {
             await signInAnonymously(auth);
             await generateUserChats(auth.currentUser);
@@ -84,7 +81,7 @@ const Login = () => {
                 photoURL: "https://3.bp.blogspot.com/-UI5bnoLTRAE/VuU18_s6bRI/AAAAAAAADGA/uafLtb4ICCEK8iO3NOh1C_Clh86GajUkw/s320/guest.png",
                 publicKey: "",
             });
-            //create empty chats on firestone
+
             await setDoc(doc(db, "userChats", auth.currentUser.uid), {});
             navigate('/guest');
 
@@ -95,9 +92,9 @@ const Login = () => {
             localStorage.setItem('secretKey', SECRET_KEY);
             saveUserPK(PUBLIC_KEY, auth.currentUser)
         } catch (error) {
-            console.error(error)
+            setError(true)
         }
-    }
+    };
 
     const handleSignIn = async (e) => {
         e.preventDefault();

@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import Message from "./Message";
+import MessageGuest from "./MessageGuest";
 import { ChatContext } from "../Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js";
-import MessageGuest from "./MessageGuest";
 
 const MessagesGuest = () => {
 
     const [messages, setMessages] = useState([]);
-    const [decryptedMessages, setDecryptedMessages] = useState([]);
     const { data } = useContext(ChatContext);
     let SESSION_KEY;
 
@@ -28,9 +26,9 @@ const MessagesGuest = () => {
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
             if(doc.exists()) {
-                const docData = doc.data(); //OK
+                const docData = doc.data();
                 if(docData && docData.messages) {
-                    const encryptedMessages = docData.messages; //OK                    
+                    const encryptedMessages = docData.messages;                  
                     setMessages(encryptedMessages);
 
                     if(data.sessionKey) {
