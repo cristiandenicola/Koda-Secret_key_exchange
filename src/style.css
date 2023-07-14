@@ -126,7 +126,7 @@ li {
     
     .sidebar {
         flex: 1;
-        background-color: #4A4E69;
+        background-color: #828DD3;
         position: relative;
         max-width: 400px;
         height: 100%;
@@ -135,19 +135,19 @@ li {
         .navbar {
             display: flex;
             align-items: center;
-            background-color: #31354C;
+            background-color: #666FA7;
             height: 50px;
             padding: 10px;
             border-radius: 10px;
             justify-content: space-between;
-            color: #CCD7EF;
+            color: black;
     
             .user {
                 display: flex;
                 gap: 10px;
     
                 .profilePic {
-                    background-color: #363649;
+                    background-color: #666FA7;
                     height: 24px;
                     width: 24px;
                     border-radius: 50%;
@@ -167,7 +167,7 @@ li {
                     height: 70px;
         
                     .chats {
-                        color: #CCD7EF;
+                        color: black;
                         font-size: 40px;
                         font-weight: 700;
                     }
@@ -183,7 +183,7 @@ li {
         }
         .userChat{
             padding: 10px;
-            background-color: #31354C;
+            background-color: #4F578E;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -193,7 +193,7 @@ li {
             cursor: pointer;  
             
             &:hover {
-                background-color: #222436;
+                background-color: #3A416E;
             }
 
             .divOnline {
@@ -252,12 +252,12 @@ li {
 
         .chatInfo {
             height: 50px;
-            background-color: #787D99;
+            background-color: #4D58A0;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px;
-            color: #31354C;
+            color: white;
             margin-right: -12px;
 
             .divInfo {
@@ -307,7 +307,7 @@ li {
                     width: 35px;
                     height: 35px;
                     border-radius: 50%;
-                    background-color: #787D99;
+                    background-color: #4D58A0;
                     border: transparent;
                 }
     
@@ -325,7 +325,7 @@ li {
         }
 
         .messages {
-            background-color: #F2F4FF;
+            background-color: #E8EBFF;
             padding: 10px;
             margin-right: -12px;
             height: calc(100% - 100px);
@@ -401,7 +401,7 @@ li {
 
             .inputType {
                 max-height: 50px;
-                background-color: #31354C;
+                background-color: #2D3465;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
