@@ -41,7 +41,7 @@ export const ChatContextProvider = ({ children }) => {
             const DEST_PUBLIC_KEY = await retrievePublicKey(user);
             const MITT_PRIVATE_KEY = localStorage.getItem('secretKey');
 
-            if(DEST_PUBLIC_KEY !== "") {
+            if(DEST_PUBLIC_KEY !== "" || DEST_PUBLIC_KEY != undefined) {
                 const mittPrivateKeyTOBytes = sodium.from_hex(MITT_PRIVATE_KEY);
                 const destPublicKeyTOBytes = sodium.from_hex(DEST_PUBLIC_KEY);
                 
