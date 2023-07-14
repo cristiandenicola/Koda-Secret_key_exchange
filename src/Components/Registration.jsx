@@ -15,7 +15,7 @@ import { auth, storage, db } from "../firebase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import sodium from "libsodium-wrappers";
 
-import image from '../Assets/Data_security_26.jpg';
+import image from '../Assets/cover.png';
 import Add from "../Assets/addAvatar.png";
 import Validation from "../Validation";
 import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
@@ -104,7 +104,7 @@ const Registration = () => {
         <MDBContainer fluid className="p-3 my-5">
             <MDBRow>
                 <MDBCol col='10' md='6'>
-                    <img src={image} className="img-fluid" alt="Phone image" />
+                    <img src={image} className="img-fluid" alt="Phone image" style={{width:'800px', height:'550px', marginLeft:'20px'}}/>
                 </MDBCol>
                 <MDBCol col='4' md='5'>
                     <MDBCard className='bg-white' style={{borderRadius: '1rem', maxWidth: 'auto'}}>
@@ -123,8 +123,8 @@ const Registration = () => {
                                     <span>Add an avatar</span>
                                 </label>
                                 
-                                <p style={{marginTop:"30px"}}>Already have an account?<Link to="/Login">  Log in</Link></p>
-                                <MDBBtn disabled={loading} className="mb-4 w-100" size="lg">
+                                <p style={{marginTop:"30px"}}>Already have an account?<Link to="/" style={{color:'#91b3fa'}}>  Log in</Link></p>
+                                <MDBBtn disabled={loading} className="mb-4 w-100" size="lg" style={{backgroundColor:'#91b3fa', color:'black'}}>
                                     <MDBIcon icon='user-plus ' className="mx-2"/>
                                     Sign up
                                 </MDBBtn>

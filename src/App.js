@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Navbar from "./Components/Navbar";
-import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Account from "./Components/Account";
 import Registration from "./Components/Registration";
@@ -16,7 +15,7 @@ const App = () => {
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
-      return <Navigate to="/login" />;
+      return <Navigate to="/" />;
     }
 
     return children
@@ -27,9 +26,8 @@ const App = () => {
       <BrowserRouter>
         <Navbar/>
         <Routes>
-          <Route path='/' element={<Home />}/>
+          <Route path='/' element={<Login />}/>
           <Route path='/registration' element={<Registration />}/> 
-          <Route path='/login' element={<Login />}/>
           <Route path='/guest' 
             element={
               <ProtectedRoute>

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { ChatContext } from "../Context/ChatContext";
 import { doc, onSnapshot } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js";
 
@@ -10,9 +11,9 @@ const ChatsGuest = () => {
     
     const [chats, setChats] = useState([]);
     const [sessionKey, setSessionKey] = useState(null);
-    
     const { currentUser } = useContext(AuthContext);
     const { dispatch, data } = useContext(ChatContext);
+    const [status, setStatus] = useState(false);
     
     
     const decryptMessage = (message, key) => {
@@ -22,6 +23,25 @@ const ChatsGuest = () => {
         } catch (error) {
             return message;
         }
+    };
+
+    const retrieveDestStatus = async (uid) => {
+        try {
+            const q = query(collection(db, "users"), where("uid", "==", uid));
+            try {
+                const querySnapshot = await getDocs(q);
+                let newStatus = false;
+    
+                querySnapshot.forEach((doc) => {
+                    newStatus = doc.data().isOnline;
+                });
+    
+                return newStatus;
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+        } catch (error) {}
     };
     
     useEffect(() => {
@@ -44,6 +64,21 @@ const ChatsGuest = () => {
         } catch (error) {}
     }, [data.sessionKey]);
     
+    useEffect(() => {
+        const fetchData = async () => {
+            const newStatus = await retrieveDestStatus(data.user.uid);
+            setStatus(newStatus);
+        };
+    
+        fetchData();
+    
+        const interval = setInterval(fetchData, 2000); // Esegui la funzione ogni 2 secondi
+    
+        return () => {
+            clearInterval(interval); // Pulisci l'intervallo alla disconnessione del componente
+        };
+    }, [data.user.uid]);
+
     const handleSelect = (u) => {
         dispatch({ type: "CHANGE_USER", payload: u });
     };
@@ -61,7 +96,15 @@ const ChatsGuest = () => {
                         style={{backgroundColor:'#474242'}}
                     >
                         <img className="userChatImg" src={chat[1].userInfo.photoURL} alt="" />
-                        {data.user.publicKey !== "" && <div className="divOnline"></div>}
+                        {
+                            status === true ? (
+                                <div className="divOnline"></div>
+                            ) : status === false ? (
+                                <div className="divOffline"></div>
+                            ) : (
+                                <div className="divOnline"></div>
+                            )
+                        }
                         <div className="userChatInfo">
                             <span className="spanName">{chat[1].userInfo.displayName}</span>
                             <p className="pMessage" style={{marginBottom:'0px'}}>

@@ -13,7 +13,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { auth, db } from '../firebase';
 import { signInAnonymously, signInWithEmailAndPassword } from "firebase/auth";
-import image from '../Assets/Data_security_26.jpg';
+import image from '../Assets/cover.png';
 import ValidationLogin from "../ValidationLogin";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
 import sodium from "libsodium-wrappers";
@@ -122,7 +122,7 @@ const Login = () => {
         <MDBContainer fluid className="p-3 my-5">
             <MDBRow>
                 <MDBCol col='10' md='6'>
-                    <img src={image} className="img-fluid" alt="Phone image" />
+                    <img src={image} className="img-fluid" alt="Phone image" style={{width:'800px', height:'550px', marginLeft:'20px'}}/>
                 </MDBCol>
                 <MDBCol col='4' md='5'>
                     <MDBCard className='bg-white' style={{borderRadius: '1rem', maxWidth: 'auto'}}>
@@ -134,10 +134,10 @@ const Login = () => {
                                 {error.password && <p style={{color: "red"}}><MDBIcon fab icon='exclamation ' className="mx-2"/>{error.password}</p>}
                                 <div className="d-flex justify-content-between mx-4 mb-4">
                                     <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-                                    <p>No account?<Link to="/Registration">  Create one</Link></p>
+                                    <p>No account?<Link to="/Registration" style={{color:'#91b3fa'}}>  Create one</Link></p>
                                 </div>
 
-                                <MDBBtn className="mb-4 w-100" size="lg">
+                                <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor:'#91b3fa', color:'black'}}>
                                     <MDBIcon icon='sign-in-alt ' className="mx-2"/>
                                     Sign in
                                 </MDBBtn>
@@ -147,7 +147,7 @@ const Login = () => {
                                     <p className="text-center fw-bold mx-3 mb-0" style={{marginTop:'-20px', paddingBottom:'20px'}}>OR</p>
                                 </div>
                             </form>
-                            <MDBBtn className="ms-2 w-100" size="lg" onClick={handleGuestSignIn} style={{backgroundColor: '#8c7d7d'}}>
+                            <MDBBtn className="ms-2 w-100" size="lg" onClick={handleGuestSignIn} style={{backgroundColor: '#e9effd', color:'black'}}>
                                 <MDBIcon icon='user-alt ' className="mx-2"/>
                                     Continue as a guest
                             </MDBBtn>
