@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
-import {
-    MDBIcon,
-    MDBBtn
-} from 'mdb-react-ui-kit';
+import { MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 import Messages from "./MessagesGuest";
 import Input from "./InputGuest";
 import { ChatContext } from "../Context/ChatContext";

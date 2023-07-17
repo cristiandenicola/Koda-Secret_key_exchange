@@ -15,7 +15,6 @@ const ChatsGuest = () => {
     const { dispatch, data } = useContext(ChatContext);
     const [status, setStatus] = useState(false);
     
-    
     const decryptMessage = (message, key) => {
         try {
             const decryptedText = CryptoJS.AES.decrypt(message, key).toString(CryptoJS.enc.Utf8);

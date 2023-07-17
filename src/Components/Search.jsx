@@ -14,13 +14,26 @@ import {
 import { db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
 
-
+/**
+ * @description component inglobato all'interno di sidebar, si occupa della ricerca di uno user cercato.
+ * viene fatta una ricerca iterativa per lettera all'interno della collezione users nel db
+ * @param username contiene la stringa cercata dall'utente, quindi il val che verrà confrontato nel db
+ * @param user contenitore per il risultato della ricerca
+ * @param error usato per il validation
+ * @param currentUser const che tiene traccia dell'utente in sessione, cosi da avere un indice per le ricerche nel db
+ * @returns 
+ */
 const Search = () => {
     const [username, setUsername] = useState("");
     const [user, setUser] = useState(null);
     const [error, setError] = useState(false);
     const { currentUser } = useContext(AuthContext);
 
+    /**
+     * @description useEffect in cui avviene la ricerca vera e propria
+     * per prima cosa viene verificato che l'utente non abbia inserito una stringa vuota, poi viene confrontato il valore inserito dall'utente con quelli presenti nel db
+     * ottenuta la query setto user con ciò ottenuto dalla ricerca e nel caso in cui fosse 0 setto error true 
+     */
     useEffect(() => {
         const handleSearch = async () => {
             if (username !== "") {
@@ -47,6 +60,12 @@ const Search = () => {
         handleSearch();
     }, [username]);
 
+    /**
+     * @description funzione che gestisce l'evento click sul risultato della ricerca
+     * in particolare per prima cosa viene creato un UID univoco formato dai due utenti in questione (utente che fa ricerca + ricercato)
+     * per prima cosa poi verifico che il ricercato sia online, se off viene displayato un messaggio che indica che la conversazione non può iniziare
+     * nel caso in cui entrambi siano online allora creo il documento chats (dove verranno salvati i ciphertexts) e aggiorno gli userChats di entrambi
+     */
     const handleSelect = async () => {
         const combinedId =
             currentUser.uid > user.uid

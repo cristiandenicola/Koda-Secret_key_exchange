@@ -2,9 +2,13 @@ import React from "react";
 import NavbarAccount from "./NavbarAccount";
 import Search from "./Search";
 import Chats from "./Chats";
-import { MDBBtn } from 'mdb-react-ui-kit';
 import '../style.css'
 
+/**
+ * @description Uno dei due macro component dentro account
+ * component che fa da padre a quelli inglobati
+ * @returns 
+ */
 const Sidebar = () => {
     return (
         <div className="sidebar">

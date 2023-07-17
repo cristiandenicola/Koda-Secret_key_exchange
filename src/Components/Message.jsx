@@ -3,7 +3,13 @@ import { AuthContext } from "../Context/AuthContext";
 import { ChatContext } from "../Context/ChatContext";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
-
+/**
+ * @description Component che rappresenta il vero e proprio messaggio visualizzato.
+ * @param currentUser const che tiene traccia dell'utente in sessione, cosi da avere un indice per le ricerche nel db
+ * @param showPassword const boolean usata per gestire il toggle del messaggio nel caso fosse di tipo /hide
+ * @param data param preso dal ChatContext in cui risiedono dati essenziati dell'altro utente e della sessione della chat
+ * @returns 
+ */
 const Message = ({ message }) => {
 
     const { currentUser } = useContext(AuthContext);
@@ -11,10 +17,17 @@ const Message = ({ message }) => {
     const { data } = useContext(ChatContext);
     const ref = useRef();
 
+    /**
+     * @description metodo usato per gestire il toggle del component message nel caso in cui il messaggio fosse di tipo /hide
+     */
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
+    /**
+     * @description useEffect usato per aggiungere un effetto alla visualizzazione dei messaggi.
+     * nel caso in cui arriva un nuovo messaggio e io sono sopra l'effetto mi riporta al nuovo messaggio
+     */
     useEffect(() => {
         ref.current?.scrollIntoView({ behavior: "smooth" });
     }, [message]);

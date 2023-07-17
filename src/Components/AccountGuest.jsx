@@ -3,7 +3,6 @@ import Chat from "./ChatGuest";
 import Sidebar from "./SidebarGuest";
 
 const AccountGuest = () => {
-
     return (
         <div className="home">
             <Sidebar/>
@@ -11,5 +10,4 @@ const AccountGuest = () => {
         </div>
     );
 }
-
 export default AccountGuest;

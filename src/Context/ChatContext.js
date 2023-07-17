@@ -5,7 +5,13 @@ import sodium from "libsodium-wrappers";
 import { AuthContext } from "../Context/AuthContext";
 
 export const ChatContext = createContext();
-
+/**
+ * @description context principale per la gestione della chat, quindi che tiene traccia dei dati della chat e dai loro proprietari
+ * @param currentUser paramentro in cui viene inserito l'utente in sessione e che verrà poi passato a tutto il codice
+ * @param INITIAL_STATE contiene le informazioni principali della chat, quali: chatID, gli user che la compongono, la sessionKey
+ * @param {*} param0 
+ * @returns 
+ */
 export const ChatContextProvider = ({ children }) => {
 
     const { currentUser } = useContext(AuthContext);
@@ -16,6 +22,11 @@ export const ChatContextProvider = ({ children }) => {
         selectedUser: false,
     };
 
+    /**
+     * @description metodo usato per il recupero della publicKey dell'utente cercato da quello in sessione 
+     * @param {*} user 
+     * @returns publicKeyDest
+     */
     const retrievePublicKey = async (user) => {
         const q = query(
             collection(db, "users"),
@@ -36,6 +47,13 @@ export const ChatContextProvider = ({ children }) => {
         return publicKeyDest;
     };
 
+    /**
+     * @description metodo usato per calcolare localmente la chiave di sessione che verrà usata per cifrare i messaggi scambiati tra i due utenti
+     * per prima cosa viene recuperata la chiave pubblica dell'altro utente dal db con il metodo @retrievePublicKey
+     * poi le chiavi vengono convertite in bytes e date in pasto alla funzione di calcolo che restituirà la chiave di sessione simmetrica da entrambe le parti
+     * @param {*} user 
+     * @returns SESSION_KEY
+     */
     const calculateSessionKey = async (user) => {
         try {
             const DEST_PUBLIC_KEY = await retrievePublicKey(user);
@@ -57,6 +75,12 @@ export const ChatContextProvider = ({ children }) => {
         }
     };
 
+    /**
+     * @description metodo reducer quindi usato per settare un nuovo stato; in questo caso è usato per passare da una chat all'altra nel component chats
+     * @param {*} state 
+     * @param {*} action 
+     * @returns 
+     */
     const chatReducer = (state, action) => {
         switch (action.type) {
             case "CHANGE_USER":

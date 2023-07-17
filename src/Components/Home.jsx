@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * @deprecated
+ * @returns 
+ */
 const Home = () => {
     return (
         <section className="hero">

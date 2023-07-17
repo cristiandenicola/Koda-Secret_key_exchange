@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import "../style.css";
 import image from "../Assets/MicrosoftTeams-image.png"
 
-
+/**
+ * @description Component puramente grafico, rappresenta la navbar principale dell'app in alto
+ * presenta due link che sono login e registrazione
+ * @returns 
+ */
 const Navbar = () => {
     return (
         <nav className="navbar">

@@ -18,24 +18,33 @@ import ValidationLogin from "../ValidationLogin";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
 import sodium from "libsodium-wrappers";
 
-
+/**
+ * @description Component usato per la gestiore del login da parte dell'utente
+ * si interfaccia con il db per la lettura dei dati e il salvataggio della publicKey e dello status.
+ * @param email valore preso dalla mail inserita dallo user
+ * @param password valore preso dalla password inserita dallo user
+ * @param error usato per il validation
+ * @param PUBLIC_KEY valore della public key calcolata
+ * @param SECRET_KEY valore della private key calcolata
+ * @returns 
+ */
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    
     let PUBLIC_KEY;
     let SECRET_KEY;
 
     /**
-     * metodo usato x la generazione della keyPair
-     * in particolare viene usato l'algoritmo X25519 che usa la curva Curve25519 (ellittico).
-     * @returns coppia di key public e private
+     * @description funzione usata per calcolare la coppia di chiavi pubblica-privata con diffie hellman.
+     * viene usata la libreria https://github.com/jedisct1/libsodium.js e le chiavi vengono calcolate sulla base dell'algoritmo X25519 che usa la curva Curve25519
+     * @returns PUBLIC_KEY, SECRET_KEY
      */
     const generateUserKeys = () => {
         const USER_KEYS = sodium.crypto_kx_keypair();
-        //usando crypto_kx ottengo una coppia di key basate sull'algoritmo X25519 che usa la curva Curve25519
 
         const PUBLIC_KEY = sodium.to_hex(USER_KEYS.publicKey);
         const SECRET_KEY = sodium.to_hex(USER_KEYS.privateKey)
@@ -43,10 +52,21 @@ const Login = () => {
         return { PUBLIC_KEY, SECRET_KEY};
     };
 
+    /**
+     * @description funzione che crea la collezione userChats dell'utente.
+     * questo perchè l'app è concentrata sul concetto di effimero e quindi ad ogni fine sessione (logout) vengono eliminati tutti i doc con dati sensibili per non lasciare tracce.
+     * @param {*} user 
+     */
     async function generateUserChats(user) {
         await setDoc(doc(db, "userChats", user.uid), {});
     };
 
+    /**
+     * @description funzione usata per salvare nel db @PUBLIC_KEY chiave pubblica dell'utente quindi non un dato sensibile
+     * viene salvata li e non nel localStorage per comodità
+     * @param {*} PUBLIC_KEY public key calcolata dello user
+     * @param {*} user user proprietario della coppia di key
+     */
     const saveUserPK = (PUBLIC_KEY, user) => {
         try {
             updateDoc(doc(db, "users", user.uid), { 
@@ -57,6 +77,10 @@ const Login = () => {
         };
     };
     
+    /**
+     * @description funzione usata per aggiornare lo status dell'utente al momento del login, quindi passa da offline a online (boolean)
+     * @param {*} user 
+     */
     const updateStatus = (user) => {
         try {
             updateDoc(doc(db, "users", user.uid), { 
@@ -67,6 +91,12 @@ const Login = () => {
         };
     }
 
+    /**
+     * @description metodo di gestione del login GUEST, quindi usa il metodo signInAnonymously di firebase. poi viene richiamato  @generateUserChats per generare il doc di userChats dell'account.
+     * in seguito vengono salvate le info di questo utente GUEST su un utenza temporanea (a fine sessione verrà eliminata) con nome e immagine default.
+     * in fine viene richimato il metodo @generateUserKeys per la generazione della coppia di key di sessione
+     * @param {*} e 
+     */
     const handleGuestSignIn = async (e) => {
         e.preventDefault();
         setError('');
@@ -96,6 +126,11 @@ const Login = () => {
         }
     };
 
+    /**
+     * @description metodo di gestione del login normale, usa il metodo signInWithEmailAndPassword di firebase. poi viene richiamato  @generateUserChats per generare il doc di userChats dell'account.
+     * in fine viene richimato il metodo @generateUserKeys per la generazione della coppia di key di sessione
+     * @param {*} e 
+     */
     const handleSignIn = async (e) => {
         e.preventDefault();
         setError('');
@@ -121,8 +156,8 @@ const Login = () => {
     return (
         <MDBContainer fluid className="p-3 my-5">
             <MDBRow>
-                <MDBCol col='10' md='6'>
-                    <img src={image} className="img-fluid" alt="Phone image" style={{width:'800px', height:'550px', marginLeft:'20px'}}/>
+                <MDBCol col='10' md='6' style={{maxWidth:'100%'}}>
+                    <img src={image} className="img-fluid" alt="Phone image" style={{width:'90%', marginLeft:'20px', objectFit:'cover'}}/>
                 </MDBCol>
                 <MDBCol col='4' md='5'>
                     <MDBCard className='bg-white' style={{borderRadius: '1rem', maxWidth: 'auto'}}>
