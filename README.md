@@ -1,6 +1,7 @@
 #  KODA - Secure secret exchange
 ### Il codice di questo progetto non è fornito in quanto confidenziale
 <br>
+
 **Web app per lo scambio sicuro di segreti e messaggi**. In particolare tutta la sessione verà gestita in modo *`effimero`*, quindi al suo termine ogni traccia verà cancellata.
 
 ##  Cosa fa?
