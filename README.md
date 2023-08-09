@@ -15,6 +15,9 @@ Per garantire ciò è richiesta l'autenticazione da entrambe le parti tramite lo
 
 infine la cifratura dei segreti e messaggi viene effettuata in due modalità: per prima cosa viene generata una coppia di chiavi effimera per utente tramite **Diffie-Hellman**;
 poi seguendo il principio di questo algoritmo le due parti computano localmente la chiave di sessione simmetrica che verrà data in pasto, assieme al segreto o messaggio, all'algoritmo di cifratura simmetrico **AES-128**.
+<br></br>
+Viene mostrata ora una simulazione di un canale dell'ambiente durante lo scambio di un segreto.
+<img src="assets-readMe/Sample KODA conversation-PhotoRoom.png-PhotoRoom.png" alt="sample" title="sample" style="display:block; margin-right: 20px;" width="400">
 
 per utilizzare l'app:
 ###  `npm start`
