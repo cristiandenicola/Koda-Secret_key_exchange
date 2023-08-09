@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+#  KODA - Secure secret exchange
+**Web app per lo scambio sicuro di segreti e messaggi**. In particolare tutta la sessione verà gestita in modo *`effimero`*, quindi al suo termine ogni traccia verà cancellata.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##  Cosa fa?
+KODA si occupa di fornire in primo luogo un ambiente sicuro dove le due parti possono connettersi senza dover preoccuparsi di attacchi Man-in-the-middle o Crittoanalisi.
+Per garantire ciò è richiesta l'autenticazione da entrambe le parti tramite login o creazione di un account qual'ora non si fosse in possesso di uno
+<div style="display: flex; justify-content: center;">
+  <img src="assets-readMe/koda-login.png" alt="login" title="login" style="display:block; margin-right: 20px;" width="400">
+  <img src="assets-readMe/koda-signup.png" alt="signup" title="registrazione" style="display:block;" width="400">
+</div>
 
-## Available Scripts
 
-In the project directory, you can run:
+infine la cifratura dei segreti e messaggi viene effettuata in due modalità: per prima cosa viene generata una coppia di chiavi effimera per utente tramite **Diffie-Hellman**;
+poi seguendo il principio di questo algoritmo le due parti computano localmente la chiave di sessione simmetrica che verrà data in pasto, assieme al segreto o messaggio, all'algoritmo di cifratura simmetrico **AES-128**.
 
-### `npm start`
+per utilizzare l'app:
+###  `npm start`
 
 Runs the app in the development mode.\
+
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
+###  `npm test`
 
 Launches the test runner in the interactive watch mode.\
+
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+  
+
+###  `npm run build`
 
 Builds the app for production to the `build` folder.\
+
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+###  `Comandi utili in-app`
+*`/hide`*: Comando che nasconde il segreto inserito in fase di visualizzazione e tramite toggle (eye) da la possibilità di leggerlo. <br>
+*`/qr`*: Comando che genera un QR code con valore uguale al segreto inserito. Il destinatario scansionandolo ha la possibilità di recuperare il segreto.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+##  Sviluppato con
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+KODA è una Web app sviluppata in Javascript per il back-end e in React per il front-end, usando anche librerie e programmi esterni:
+* [React](https://react.dev/)
+* [Javascript](https://www.javascript.com/)
+* [Firebase](https://firebase.google.com/)
+* [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+* [Material Design](https://m3.material.io/)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
+You can learn more in the [Create React App documentation](https://react.dev/).
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+##  Prerequisiti per usare l'app
+ReactJS richiede l'installazione di Node.js, un ambiente di runtime JavaScript, insieme a npm (Node Package Manager), che viene fornito con Node.js. Puoi scaricare Node.js dal sito ufficiale e viene fornito con npm. [NodeJS](https://nodejs.org/en)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Note
+Progetto di tesi di Cristian De Nicola.
